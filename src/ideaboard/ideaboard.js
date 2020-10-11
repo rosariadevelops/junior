@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import IdeaCard from "./ideacard";
 import CreateIdea from "./createidea";
 import useModal from "./../useModal";
 
 export default function IdeaBoard() {
-    // const [isVisible, toggle] = useState(false);
     const { isVisible, toggle } = useModal();
-    //const handleClose = () => setShow(false);
-    //const handleShow = () => setShow(true);
 
     return (
         <React.Fragment>
@@ -20,8 +17,13 @@ export default function IdeaBoard() {
             <div className="grid-ctr">
                 <IdeaCard />
             </div>
-
-            <CreateIdea isVisible={isVisible} hide={toggle} />
+            {isVisible && (
+                <CreateIdea
+                    isVisible={isVisible}
+                    hide={toggle}
+                    backdrop={true}
+                />
+            )}
         </React.Fragment>
     );
 }

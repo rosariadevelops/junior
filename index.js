@@ -40,6 +40,7 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 //const { sendEmail } = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
+const { async } = require("crypto-random-string");
 const server = require("http").Server(app); // constructor for server object
 const io = require("socket.io")(server, { origins: "localhost:8080" }); // socket needs a native node server in order to work
 
@@ -285,10 +286,29 @@ app.post("/password/reset/verify", (req, res) => {
     }
 });
 
+// POST // CREATE IDEA MODAL
+app.post("/create-idea", (req, res) => {
+    console.log("/create-idea req.body: ", req.body);
+});
+
+// GET // PROJECTS
+app.get("/projects", (req, res) => {
+    console.log("projects page");
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
+
 // GET // PROFILE
 app.get("/profile", (req, res) => {
     console.log("profile page");
-    res.sendFile(__dirname + "/index.html");
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
 });
 
 // GET // LOGOUT PAGE

@@ -5,7 +5,7 @@ import { useAuthSubmit } from "./useAuthSubmit";
 
 export default function Login() {
     const [value, handleChange] = useStatefulFields();
-    const [error, handleSubmit] = useAuthSubmit("/welcome", value);
+    const [error, handleSubmit] = useAuthSubmit("/login", value);
     return (
         <div className="form-ctr">
             <div className="login-form">

@@ -7,64 +7,67 @@ export default function createIdeaModal() {
     const [error, handleSubmit] = useAuthSubmit("/create-idea", value);
     return (
         <React.Fragment>
-            <div className="form">
-                {error && <p className="error">{error}</p>}
+            <div className="modal">
+                <div className="overlay"></div>
+                <div className="form">
+                    {error && <p className="error">{error}</p>}
 
-                <input
-                    onChange={handleChange}
-                    type="text"
-                    name="idea_title"
-                    autoComplete="false"
-                    placeholder="Simple React Weather App"
-                />
-                <label htmlFor="idea_title">Idea title:</label>
+                    <input
+                        onChange={handleChange}
+                        type="text"
+                        name="idea_title"
+                        autoComplete="false"
+                        placeholder="Simple React Weather App"
+                    />
+                    <label htmlFor="idea_title">Idea title:</label>
 
-                <input
-                    onChange={handleChange}
-                    type="text"
-                    name="idea_desc"
-                    autoComplete="false"
-                    placeholder="Looking to make something simple this weekend with one other person. This simple weather app will will only display the current weather for an area we choose."
-                />
-                <label htmlFor="idea_desc">Description:</label>
+                    <textarea
+                        onChange={handleChange}
+                        type="text"
+                        name="idea_desc"
+                        autoComplete="false"
+                        placeholder="Looking to make something simple this weekend with one other person. This simple weather app will will only display the current weather for an area we choose."
+                    />
+                    <label htmlFor="idea_desc">Description:</label>
 
-                <input
-                    onChange={handleChange}
-                    type="text"
-                    name="idea_stack"
-                    autoComplete="false"
-                    placeholder="Node.js"
-                />
-                <label htmlFor="idea_stack">Stack:</label>
+                    <input
+                        onChange={handleChange}
+                        type="text"
+                        name="idea_stack"
+                        autoComplete="false"
+                        placeholder="Node.js"
+                    />
+                    <label htmlFor="idea_stack">Stack:</label>
 
-                <input
-                    className="idea_time"
-                    autoComplete="false"
-                    onChange={handleChange}
-                    type="datetime-local"
-                    name="idea_duedate"
-                    value="2020-16-12T19:30"
-                    required
-                />
-                <label htmlFor="idea_duedate">Estimated duration:</label>
+                    <input
+                        className="idea_time"
+                        autoComplete="false"
+                        onChange={handleChange}
+                        type="datetime-local"
+                        name="idea_duedate"
+                        value="2020-10-16T19:30"
+                        required
+                    />
+                    <label htmlFor="idea_duedate">Estimated duration:</label>
 
-                <input
-                    onChange={handleChange}
-                    type="number"
-                    name="idea_people"
-                    autoComplete="false"
-                    placeholder="2"
-                />
-                <label htmlFor="idea_people">Amount of partners:</label>
+                    <input
+                        onChange={handleChange}
+                        type="number"
+                        name="idea_people"
+                        autoComplete="false"
+                        placeholder="2"
+                    />
+                    <label htmlFor="idea_people">Amount of partners:</label>
 
-                <button
-                    onClick={handleSubmit}
-                    type="submit"
-                    name="submitted"
-                    value="registered"
-                >
-                    Create project idea
-                </button>
+                    <button
+                        onClick={handleSubmit}
+                        type="submit"
+                        name="submitted"
+                        value="registered"
+                    >
+                        Create project idea
+                    </button>
+                </div>
             </div>
         </React.Fragment>
     );
