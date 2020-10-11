@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "sk-modernistregular";
+    src: url("../fonts/SKModernist/sk-modernist-regular-webfont.woff2")
+            format("woff2"),
+        url("../fonts/SKModernist/sk-modernist-regular-webfont.woff")
+            format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
