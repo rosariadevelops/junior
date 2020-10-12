@@ -42,10 +42,7 @@ export default function IdeaBoard() {
             <div className="grid-ctr">
                 {ideas &&
                     ideas.map((idea) => (
-                        <IdeaCard
-                            /* onClick={toggle} */ key={idea.id}
-                            idea={idea}
-                        />
+                        <IdeaCard onClick={toggle} key={idea.id} idea={idea} />
                     ))}
             </div>
 
@@ -53,7 +50,7 @@ export default function IdeaBoard() {
                 <IdeaModal
                     isVisible={isVisible}
                     hide={toggle}
-                    key={1}
+                    key={ideaId}
                     idea={ideaOne}
                 />
             )}

@@ -17,7 +17,7 @@ export async function acceptIdeaReq(otherUserId) {
 
     console.log("ACCEPT REQUEST: ", data);
     return {
-        type: "ACCEPT FRIEND",
+        type: "ACCEPT COLAB",
         status: data.status,
         accepted: data.accepted,
         id: otherUserId,

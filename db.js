@@ -138,3 +138,12 @@ module.exports.acceptIdeaRequest = (creator_id, requester_id) => {
         [creator_id, requester_id]
     );
 };
+
+module.exports.getIdeaInfo = (id) => {
+    return db.query(
+        `
+    SELECT * FROM ideas 
+    WHERE id = ($1);`,
+        [id]
+    );
+};

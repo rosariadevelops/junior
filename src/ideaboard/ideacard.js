@@ -1,6 +1,5 @@
 import React from "react";
-//import IdeaConnection from "./ideaboard/ideaconnection";
-//import IdeaVoting from "./ideaboard/ideavoting";
+import IdeaVoting from "./ideavoting";
 
 export default function IdeaCard({ idea }) {
     console.log("working INSIDE?", idea);
@@ -13,14 +12,7 @@ export default function IdeaCard({ idea }) {
                     <p className="body-2">@rosariadevelops</p>
                 </div>
                 <div className="card-votes">
-                    <div className="card-votes-up">
-                        <div className="heart"></div>
-                        <p className="body-2">{idea.vote_up}</p>
-                    </div>
-                    <div className="card-votes-down">
-                        <div className="heart"></div>
-                        <p className="body-2">{idea.vote_down}</p>
-                    </div>
+                    <IdeaVoting />
                 </div>
             </div>
             <div className="card-bottom">

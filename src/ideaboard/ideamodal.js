@@ -1,22 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import IdeaRequestButton from "./idearequestbutton";
+import IdeaVoting from "./ideavoting";
 import { useDispatch, useSelector } from "react-redux";
 import { recieveIdeas } from "./../actions";
+import axios from "./../axios";
 
 //import { useStatefulFields } from "./../usestatefulfields";
 //import { useAuthSubmit } from "./../useauthsubmit";
 //import IdeaBoard from "./ideaboard";
 
 export default function createIdeaModal({ hide, idea }) {
+    const [data, setData] = useState();
+    console.log("ideamodal data: ", data);
     //const [value, handleChange] = useStatefulFields();
     //const dispatch = useDispatch();
     //const [error, handleSubmit] = useAuthSubmit("/idea-to-project/request", value);
 
     const ideaExpanded = idea[0];
-    console.log("idea IDEAMODAL: ", ideaExpanded);
+    //console.log("idea IDEAMODAL: ", ideaExpanded);
+
     /* useEffect(() => {
         dispatch(recieveIdeas());
     }, []); */
+
+    //const results = axios.get(`/idea/${idea.id}`);
 
     return (
         <React.Fragment>

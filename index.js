@@ -393,12 +393,12 @@ app.post("/idea-status/:otherUserId/request-colab", async (req, res) => {
     }
 });
 
-// POST // REQUEST COLAB BUTTON
+// POST // ACCEPT COLAB BUTTON
 app.post("/idea-status/:otherUserId/accept-colab", async (req, res) => {
     if (req.params.otherUserId) {
         const { rows } = await db
-        .acceptIdeaRequest(req.params.otherUserId, req.session.userId)
-        .catch((err) => console.log("err in insertIdeaRequest: ", err));
+            .acceptIdeaRequest(req.params.otherUserId, req.session.userId)
+            .catch((err) => console.log("err in insertIdeaRequest: ", err));
         console.log("ACCEPT COLAB RESULT: ", rows[0]);
         res.json({
             data: rows[0],
@@ -410,6 +410,45 @@ app.post("/idea-status/:otherUserId/accept-colab", async (req, res) => {
             success: false,
         });
     }
+});
+
+// GET // IDEA MODAL
+app.get("/idea/:id.json", async (req, res) => {
+    console.log("/idea/:id req.params: ", req.params);
+    if (req.params.otherUserId) {
+        const { rows } = await db
+            .getIdeaInfo(req.params.id)
+            .catch((err) => console.log("err in getIdeaInfo: ", err));
+        console.log("ACCEPT COLAB RESULT: ", rows[0]);
+        res.json({
+            data: rows[0],
+            success: true,
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
+// POST // ACCEPT COLAB BUTTON
+app.post("/idea/:id", async (req, res) => {
+    if (req.params.otherUserId) {
+        const { rows } = await db
+            .acceptIdeaRequest(req.params.otherUserId, req.session.userId)
+            .catch((err) => console.log("err in insertIdeaRequest: ", err));
+        console.log("ACCEPT COLAB RESULT: ", rows[0]);
+        res.json({
+            data: rows[0],
+            status: "Delete friend",
+            success: true,
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
 
 // GET // PROJECTS
 app.get("/projects", async (req, res) => {
