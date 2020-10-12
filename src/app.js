@@ -17,7 +17,7 @@ import AllProjects from "./project/allprojects";
 // move into ^^ import Developers from "./community/developers";
 // move into ^^ import Conversations from "./community/conversations";
 // move into ^^ import PrivateMessage from "./community/privatemessage";
-import { Link, BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 export default function App() {
     //

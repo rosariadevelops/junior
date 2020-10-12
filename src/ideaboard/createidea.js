@@ -58,15 +58,6 @@ export default function createIdeaModal({ hide }) {
                     />
                     <label htmlFor="idea_duedate">Estimated duration:</label>
 
-                    <input
-                        onChange={handleChange}
-                        type="number"
-                        name="idea_people"
-                        autoComplete="false"
-                        placeholder="2"
-                    />
-                    <label htmlFor="idea_people">Amount of partners:</label>
-
                     <button
                         onClick={handleSubmit}
                         type="submit"

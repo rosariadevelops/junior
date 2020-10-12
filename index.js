@@ -286,25 +286,31 @@ app.post("/password/reset/verify", (req, res) => {
     }
 });
 
+// GET // IDEABOARD
+app.get("/ideaboard", async (req, res) => {
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        // res.sendFile(__dirname + "/index.html");
+        const { rows } = await db
+            .getIdeas()
+            .catch((err) => console.log("err in getIdeas: ", err));
+        console.log("allIdeas results: ", rows);
+        res.json({
+            success: true,
+            ideas: rows,
+        });
+    }
+});
+
 // POST // CREATE IDEA MODAL
 app.post("/create-idea", async (req, res) => {
     const loggedInUser = req.session.userId;
-    const {
-        idea_title,
-        idea_desc,
-        idea_stack,
-        idea_duedate,
-        idea_people,
-    } = req.body;
+    const { idea_title, idea_desc, idea_stack, idea_duedate } = req.body;
 
-    const { rows } = await db.addIdea(
-        idea_title,
-        loggedInUser,
-        idea_desc,
-        idea_stack,
-        idea_duedate,
-        idea_people
-    );
+    const { rows } = await db
+        .addIdea(idea_title, loggedInUser, idea_desc, idea_stack, idea_duedate)
+        .catch((err) => console.log("err in addIdea: ", err));
     console.log("results: ", rows[0]);
     res.json({
         success: true,
@@ -312,13 +318,114 @@ app.post("/create-idea", async (req, res) => {
     });
 });
 
+// GET // REQUEST COLAB BUTTON
+app.get(`/idea-status/:otherUserId`, async (req, res) => {
+    console.log("/idea-status/:otherUserId req.params: ", req.params);
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        const { rows } = await db
+            .getIdeaStatus(req.params.otherUserId, req.session.userId)
+            .catch((err) => console.log("err in getIdeaStatus: ", err));
+        console.log("results: ", rows[0]);
+        if (rows.length > 0) {
+            console.log("idea request PENDING");
+            if (
+                rows[0].creator_id === req.session.userId &&
+                rows[0].accepted === false
+            ) {
+                console.log("logged in user SENT the request");
+                res.json({
+                    buttonText: "Cancel colaboration",
+                });
+            } else if (rows[0].accepted === true) {
+                console.log("These guys are making some projects!");
+                res.json({
+                    buttonText: "Remove request",
+                });
+            } else if (
+                rows[0].requester_id === req.session.userId &&
+                rows[0].accepted === false
+            ) {
+                console.log("logged in user RECEIVED the request");
+                res.json({
+                    buttonText: "Accept colaboration",
+                });
+            }
+        } else {
+            console.log("NO request existing");
+            res.json({
+                buttonText: "Request colaboration",
+            });
+        }
+        /* res.json({
+            success: true,
+            ideaStatus: rows[0],
+        }); */
+    }
+});
+
+// POST // REQUEST COLAB BUTTON
+app.post("/idea-status/:otherUserId/request-colab", async (req, res) => {
+    //console.log("projects page");
+    if (req.params.otherUserId) {
+        const { rows } = await db
+            .insertIdeaRequest(req.params.otherUserId, req.session.userId)
+            .catch((err) => console.log("err in insertIdeaRequest: ", err));
+        console.log("insertIdeaRequest results: ", rows);
+        if (req.session.userId === rows[0].requester_id) {
+            res.json({
+                data: rows[0],
+                status: "Cancel idea request",
+                success: true,
+            });
+        } else {
+            res.json({
+                data: rows[0],
+                status: "Accept idea request",
+                success: true,
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
+// POST // REQUEST COLAB BUTTON
+app.post("/idea-status/:otherUserId/accept-colab", async (req, res) => {
+    if (req.params.otherUserId) {
+        const { rows } = await db
+        .acceptIdeaRequest(req.params.otherUserId, req.session.userId)
+        .catch((err) => console.log("err in insertIdeaRequest: ", err));
+        console.log("ACCEPT COLAB RESULT: ", rows[0]);
+        res.json({
+            data: rows[0],
+            status: "Delete friend",
+            success: true,
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+
 // GET // PROJECTS
-app.get("/projects", (req, res) => {
+app.get("/projects", async (req, res) => {
     //console.log("projects page");
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
         res.sendFile(__dirname + "/index.html");
+        /* const { rows } = await db
+            .getProjects()
+            .catch((err) => console.log("err in getProjects: ", err));
+        console.log("getProjects results: ", rows);
+        res.json({
+            success: true,
+            projects: rows,
+        }); */
     }
 });
 

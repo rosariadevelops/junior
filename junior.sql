@@ -21,7 +21,7 @@ CREATE TABLE resetpassword (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS ideas;
+DROP TABLE IF EXISTS ideas CASCADE;
 
 CREATE TABLE ideas (
     id SERIAL PRIMARY KEY,
@@ -37,11 +37,33 @@ CREATE TABLE ideas (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS ideas_comments;
+DROP TABLE IF EXISTS ideas_comments CASCADE;
 
 CREATE TABLE ideas_comments (
     id SERIAL PRIMARY KEY,
     comment VARCHAR NOT NULL,
     idea_id INT NOT NULL REFERENCES ideas(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS ideaToProject CASCADE;
+
+CREATE TABLE ideaToProject (
+    id SERIAL PRIMARY KEY,
+    creator_id INT REFERENCES juniors(id) NOT NULL,
+    requester_id INT REFERENCES juniors(id) NOT NULL,
+    accepted BOOLEAN DEFAULT false
+);
+
+DROP TABLE IF EXISTS projects CASCADE;
+
+CREATE TABLE projects (
+    id SERIAL PRIMARY KEY,
+    proj_title VARCHAR NOT NULL,
+    proj_dev_id INT NOT NULL REFERENCES juniors(id) ON DELETE CASCADE,
+    proj_image VARCHAR,
+    proj_desc VARCHAR,
+    proj_stack VARCHAR,
+    proj_duedate DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
