@@ -19,7 +19,7 @@ CREATE TABLE resetpassword (
     email VARCHAR NOT NULL,
     code VARCHAR NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 DROP TABLE IF EXISTS ideas;
 
@@ -29,10 +29,13 @@ CREATE TABLE ideas (
     idea_dev_id INT NOT NULL REFERENCES juniors(id) ON DELETE CASCADE,
     idea_image VARCHAR,
     idea_desc VARCHAR,
+    idea_stack VARCHAR,
+    idea_duedate DATE,
+    partners INT NOT NULL,
     vote_up INT,
     vote_down INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 DROP TABLE IF EXISTS ideas_comments;
 
@@ -41,4 +44,4 @@ CREATE TABLE ideas_comments (
     comment VARCHAR NOT NULL,
     idea_id INT NOT NULL REFERENCES ideas(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);

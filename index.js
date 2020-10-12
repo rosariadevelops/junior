@@ -287,13 +287,34 @@ app.post("/password/reset/verify", (req, res) => {
 });
 
 // POST // CREATE IDEA MODAL
-app.post("/create-idea", (req, res) => {
-    console.log("/create-idea req.body: ", req.body);
+app.post("/create-idea", async (req, res) => {
+    const loggedInUser = req.session.userId;
+    const {
+        idea_title,
+        idea_desc,
+        idea_stack,
+        idea_duedate,
+        idea_people,
+    } = req.body;
+
+    const { rows } = await db.addIdea(
+        idea_title,
+        loggedInUser,
+        idea_desc,
+        idea_stack,
+        idea_duedate,
+        idea_people
+    );
+    console.log("results: ", rows[0]);
+    res.json({
+        success: true,
+        ideaAdded: rows[0],
+    });
 });
 
 // GET // PROJECTS
 app.get("/projects", (req, res) => {
-    console.log("projects page");
+    //console.log("projects page");
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {

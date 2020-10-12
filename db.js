@@ -43,3 +43,26 @@ module.exports.findPwReset = (email) => {
         [email]
     );
 };
+
+module.exports.addIdea = (
+    idea_title,
+    idea_dev_id,
+    idea_desc,
+    idea_stack,
+    idea_duedate,
+    partners
+) => {
+    return db.query(
+        `
+        INSERT INTO ideas (
+            idea_title,
+            idea_dev_id,
+            idea_desc,
+            idea_stack,
+            idea_duedate,
+            partners)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING *`,
+        [idea_title, idea_dev_id, idea_desc, idea_stack, idea_duedate, partners]
+    );
+};

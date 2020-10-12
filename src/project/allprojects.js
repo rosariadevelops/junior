@@ -4,7 +4,6 @@ import Project from "./project";
 
 export default function AllProjects() {
     //const { isVisible, toggle } = useModal();
-
     return (
         <React.Fragment>
             <div className="horizontal-ctr">

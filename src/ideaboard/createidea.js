@@ -2,7 +2,7 @@ import React from "react";
 import { useStatefulFields } from "./../usestatefulfields";
 import { useAuthSubmit } from "./../useauthsubmit";
 
-export default function createIdeaModal() {
+export default function createIdeaModal({ hide }) {
     const [value, handleChange] = useStatefulFields();
     const [error, handleSubmit] = useAuthSubmit("/create-idea", value);
     return (
@@ -10,6 +10,12 @@ export default function createIdeaModal() {
             <div className="modal">
                 <div className="overlay"></div>
                 <div className="form">
+                    <div className="close-button">
+                        <a onClick={hide}>
+                            <span className="close-modal-left"></span>
+                            <span className="close-modal-right"></span>
+                        </a>
+                    </div>
                     {error && <p className="error">{error}</p>}
 
                     <input
@@ -43,9 +49,11 @@ export default function createIdeaModal() {
                         className="idea_time"
                         autoComplete="false"
                         onChange={handleChange}
-                        type="datetime-local"
+                        type="date"
                         name="idea_duedate"
-                        value="2020-10-16T19:30"
+                        placeholder="2020-10-16"
+                        min="2020-10-16"
+                        max="2020-12-31"
                         required
                     />
                     <label htmlFor="idea_duedate">Estimated duration:</label>

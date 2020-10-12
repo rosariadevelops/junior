@@ -8,7 +8,7 @@ import IdeaBoard from "./ideaboard/ideaboard";
 // move into ^^ import IdeaCard from "./ideaboard/ideacard";
 // move into ^^ import IdeaConnection from "./ideaboard/ideaconnection";
 // move into ^^ import IdeaVoting from "./ideaboard/ideavoting";
-import AllProjects from "./allprojects";
+import AllProjects from "./project/allprojects";
 // move into ^^ import Project from "./project/project";
 // move into ^^ import ProjectInfo from "./project/projectinfo";
 // move into ^^ import ProjectTimeline from "./project/projecttimeline";
@@ -39,6 +39,7 @@ export default function App() {
                                 render={() => <IdeaBoard />}
                             />
                             <Route
+                                exact
                                 path="/projects"
                                 render={() => <AllProjects />}
                             />
