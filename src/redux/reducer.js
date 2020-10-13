@@ -21,6 +21,18 @@ export default function (state = {}, action) {
             }),
         };
         //console.log("ACCEPT FRIEND REDUCER: ", state.user);
+    } else if (action.type === "GETTING ALL VOTES UP") {
+        console.log("ALL VOTES UP REDUCER: ", action);
+        state = {
+            ...state,
+            votesUp: action.votesUp,
+        };
+    } else if (action.type === "GETTING ALL VOTES DOWN") {
+        console.log("ALL VOTES DOWN REDUCER: ", action);
+        state = {
+            ...state,
+            votesDown: action.votesDown,
+        };
     }
     console.log("RECIEVE IDEAS REDUCER: ", state.ideas);
     return state;

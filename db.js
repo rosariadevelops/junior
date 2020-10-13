@@ -147,3 +147,23 @@ module.exports.getIdeaInfo = (id) => {
         [id]
     );
 };
+
+module.exports.insertVoteUp = (count) => {
+    return db.query(
+        `
+    INSERT INTO ideas (vote_up)
+        VALUES ($1)
+        RETURNING vote_up;`,
+        [count]
+    );
+};
+
+module.exports.insertVoteDown = (count) => {
+    return db.query(
+        `
+    INSERT INTO ideas (vote_down)
+        VALUES ($1)
+        RETURNING vote_down;`,
+        [count]
+    );
+};

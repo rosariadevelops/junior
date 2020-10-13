@@ -295,7 +295,7 @@ app.get("/ideaboard", async (req, res) => {
         const { rows } = await db
             .getIdeas()
             .catch((err) => console.log("err in getIdeas: ", err));
-        console.log("allIdeas results: ", rows);
+        //console.log("allIdeas results: ", rows);
         res.json({
             success: true,
             ideas: rows,
@@ -413,26 +413,28 @@ app.post("/idea-status/:otherUserId/accept-colab", async (req, res) => {
 });
 
 // GET // IDEA MODAL
-app.get("/idea/:id.json", async (req, res) => {
+app.get("/idea/:id.json", (req, res) => {
     console.log("/idea/:id req.params: ", req.params);
-    if (req.params.otherUserId) {
-        const { rows } = await db
-            .getIdeaInfo(req.params.id)
-            .catch((err) => console.log("err in getIdeaInfo: ", err));
-        console.log("ACCEPT COLAB RESULT: ", rows[0]);
-        res.json({
-            data: rows[0],
-            success: true,
-        });
-    } else {
+    //if (req.params.otherUserId) {
+    db.getIdeaInfo(req.params.id)
+        .then(({ rows }) => {
+            console.log("IDEA CARD EXPAND RESULT: ", rows[0]);
+            res.json({
+                data: rows[0],
+                success: true,
+            });
+        })
+        .catch((err) => console.log("err in getIdeaInfo: ", err));
+
+    /* } else {
         res.json({
             success: false,
         });
-    }
+    } */
 });
 
-// POST // ACCEPT COLAB BUTTON
-app.post("/idea/:id", async (req, res) => {
+/* // POST // ACCEPT COLAB BUTTON
+app.post("/idea/:id/accept-colab", async (req, res) => {
     if (req.params.otherUserId) {
         const { rows } = await db
             .acceptIdeaRequest(req.params.otherUserId, req.session.userId)
@@ -448,7 +450,7 @@ app.post("/idea/:id", async (req, res) => {
             success: false,
         });
     }
-});
+}); */
 
 // GET // PROJECTS
 app.get("/projects", async (req, res) => {
@@ -501,4 +503,13 @@ server.listen(8080, function () {
 // SOCKET.IO
 io.on("connection", (socket) => {
     //
+    const loggedUser = socket.request.session.userId;
+    if (!loggedUser) {
+        return socket.disconnect(true);
+    }
+
+    /* db.insertVoteUp([loggedUser]).then(({ rows }) => {
+        console.log("vote: ", rows);
+        //io.sockets.emit("someone voted", rows[0]);
+    }); */
 });

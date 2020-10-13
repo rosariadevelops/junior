@@ -1,10 +1,13 @@
 import React from "react";
 import axios from "./axios";
 import Navigation from "./navigation";
+//import Modal from "./modal";
+//import useModal from "./useModal";
 //import Profile from "./profile";
 // move into ^^ import ProfilePicChange from "./profilepicchange";
 //import ProfilePic from "./profilepic";
 import IdeaBoard from "./ideaboard/ideaboard";
+import IdeaModal from "./ideaboard/ideamodal";
 // move into ^^ import IdeaCard from "./ideaboard/ideacard";
 // move into ^^ import IdeaConnection from "./ideaboard/ideaconnection";
 // move into ^^ import IdeaVoting from "./ideaboard/ideavoting";
@@ -20,7 +23,6 @@ import AllProjects from "./project/allprojects";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default function App() {
-    //
     return (
         <React.Fragment>
             <BrowserRouter>
@@ -39,9 +41,22 @@ export default function App() {
                                 render={() => <IdeaBoard />}
                             />
                             <Route
-                                exact
                                 path="/projects"
                                 render={() => <AllProjects />}
+                            />
+                            <Route
+                                path="/idea/:id"
+                                render={(props) => (
+                                    <IdeaModal
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                        /* imageURL={this.state.profilePic}
+                                        id={this.state.id}
+                                        firstname={this.state.firstname}
+                                        lastname={this.state.lastname} */
+                                    />
+                                )}
                             />
                         </div>
                     </div>

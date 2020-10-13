@@ -4,8 +4,12 @@ import IdeaCard from "./ideacard";
 //import Modal from "./modal";
 import IdeaModal from "./ideamodal";
 import useModal from "./../useModal";
+//import CreateIdea from "./createidea";
+import ModalComponent from "./../modal";
+//import { Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { recieveIdeas } from "./../redux/actions";
+//import "bootstrap/dist/css/bootstrap.min.css";
 //import { Link } from "react-router-dom";
 
 export default function IdeaBoard() {
@@ -41,20 +45,12 @@ export default function IdeaBoard() {
             </div>
             <div className="grid-ctr">
                 {ideas &&
-                    ideas.map((idea) => (
-                        <IdeaCard onClick={toggle} key={idea.id} idea={idea} />
-                    ))}
+                    ideas.map((idea) => <IdeaCard key={idea.id} idea={idea} />)}
             </div>
 
             {isVisible && (
-                <IdeaModal
-                    isVisible={isVisible}
-                    hide={toggle}
-                    key={ideaId}
-                    idea={ideaOne}
-                />
+                <ModalComponent isVisible={isVisible} hide={toggle} />
             )}
-            {/* {isVisible && <IdeaModal isVisible={isVisible} hide={toggle} />} */}
         </React.Fragment>
     );
 }

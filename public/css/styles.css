@@ -263,7 +263,7 @@ main {
     display: flex;
     align-self: flex-end;
     justify-content: space-between;
-    width: 95px;
+    width: 200px;
 }
 .card-votes .heart {
     width: 20px;
@@ -275,6 +275,8 @@ main {
     background: #fff;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    width: 100px;
 }
 .card-votes-up .heart {
     background: #5dcf04;
@@ -284,6 +286,8 @@ main {
     background: #fff;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    width: 100px;
 }
 .card-votes-down .heart {
     background: #ef3a3a;
@@ -305,6 +309,13 @@ main {
     justify-content: center;
     align-items: center;
     z-index: 10;
+}
+.modal-ctr {
+    width: 560px;
+    height: 90vh;
+    background: white;
+    top: 10vh;
+    position: absolute;
 }
 .modal .overlay {
     position: absolute;

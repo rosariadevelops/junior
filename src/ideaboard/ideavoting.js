@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
+//import { socket } from "./socket";
 
-export default function ideaVoting() {
-    const [upVote, setUpVote] = useState(0);
-    const [downVote, setDownVote] = useState(0);
+export default function ideaVoting(props) {
+    console.log("idea voting props: ", props);
+    const [upVote, setUpVote] = useState(props.voteUp);
+    const [downVote, setDownVote] = useState(props.voteDown);
     //let incrementCount = setUpVote(upVote + 1);
+    //const elemRef = useRef();
+    const votesUp = useSelector((state) => state && state.votesUp);
+    const votesDown = useSelector((state) => state && state.votesDown);
+
+    useEffect(() => {
+        // dispatch(recieveIdeas());
+    }, []);
 
     return (
         <React.Fragment>

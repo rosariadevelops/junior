@@ -23,3 +23,19 @@ export async function acceptIdeaReq(otherUserId) {
         id: otherUserId,
     };
 }
+
+export async function votesUp(votes) {
+    //console.log("LATEST TEN MESSAGES ACTIONS: ", msgs);
+    return {
+        type: "GETTING ALL VOTES UP",
+        votesUp: votes,
+    };
+}
+
+export async function votesDown(votes) {
+    //console.log("LATEST TEN MESSAGES ACTIONS: ", msgs);
+    return {
+        type: "GETTING ALL VOTES UP",
+        votesUp: votes,
+    };
+}
