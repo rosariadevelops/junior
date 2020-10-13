@@ -415,22 +415,15 @@ app.post("/idea-status/:otherUserId/accept-colab", async (req, res) => {
 // GET // IDEA MODAL
 app.get("/idea/:id.json", (req, res) => {
     console.log("/idea/:id req.params: ", req.params);
-    //if (req.params.otherUserId) {
     db.getIdeaInfo(req.params.id)
         .then(({ rows }) => {
-            console.log("IDEA CARD EXPAND RESULT: ", rows[0]);
+            //console.log("IDEA CARD EXPAND RESULT: ", rows[0]);
             res.json({
                 data: rows[0],
                 success: true,
             });
         })
         .catch((err) => console.log("err in getIdeaInfo: ", err));
-
-    /* } else {
-        res.json({
-            success: false,
-        });
-    } */
 });
 
 /* // POST // ACCEPT COLAB BUTTON
@@ -507,9 +500,50 @@ io.on("connection", (socket) => {
     if (!loggedUser) {
         return socket.disconnect(true);
     }
-
-    /* db.insertVoteUp([loggedUser]).then(({ rows }) => {
-        console.log("vote: ", rows);
-        //io.sockets.emit("someone voted", rows[0]);
+    //console.log("req.params socket: ", socket.handshake.query.param);
+    //console.log("socket.request.res: ", socket.request.res);
+    //db.getVotesUp(cardId).then
+    /* db.getUpVotes(cardId).then(({ rows }) => {
+        console.log("rows:", rows);
+        //io.sockets.emit("upVotes", rows);
     }); */
+
+    db.getVotes(1).then(({ rows }) => {
+        console.log("rows: ", rows[0]);
+        const votesUp = rows[0].vote_up;
+        const votesDown = rows[0].vote_down;
+        io.sockets.emit("votesUp", votesUp);
+        io.sockets.emit("votesDown", votesDown);
+    });
+
+    socket.on(`Up Vote on Card`, (count) => {
+        console.log("working????????");
+        console.log("count: ", count);
+        db.insertVoteUp(1, count)
+            .then(({ rows }) => {
+                console.log("upvote server result: ", rows[0].vote_up);
+                const voteup = rows[0].vote_up;
+                const newUpVote = {
+                    voteup,
+                };
+                console.log("newUpVote: ", newUpVote);
+                io.sockets.emit("newUpVote", newUpVote);
+            })
+            .catch((err) => console.log("error in insertVoteUp: ", err));
+    });
+    socket.on(`Up Vote on Card`, (count) => {
+        console.log("working????????");
+        console.log("count: ", count);
+        db.insertVoteDown(1, count)
+            .then(({ rows }) => {
+                console.log("downvote server result: ", rows[0].vote_down);
+                const votedown = rows[0].vote_down;
+                const newDownVote = {
+                    votedown,
+                };
+                console.log("newDownVote: ", newDownVote);
+                io.sockets.emit("newDownVote", newDownVote);
+            })
+            .catch((err) => console.log("error in insertVoteDown: ", err));
+    });
 });

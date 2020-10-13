@@ -16,8 +16,8 @@ export default function createIdeaModal() {
                             <span className="close-modal-right"></span>
                         </a>
                     </div>
-                    {error && <p className="error">{error}</p>} */}
-
+                     */}
+                {error && <p className="error">{error}</p>}
                 <input
                     onChange={handleChange}
                     type="text"

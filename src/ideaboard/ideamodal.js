@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { recieveIdeas } from "./../actions"; */
 import axios from "./../axios";
 import { Link } from "react-router-dom";
+import IdeaVoting from "./ideavoting";
 
 //import { useStatefulFields } from "./../usestatefulfields";
 //import { useAuthSubmit } from "./../useauthsubmit";
@@ -56,14 +57,11 @@ export default function ideaModal(props) {
                             <p className="body-2">@rosariadevelops</p>
                         </div>
                         <div className="card-votes">
-                            <div className="card-votes-up">
-                                <div className="heart"></div>
-                                <p className="body-2">{idea.vote_up}</p>
-                            </div>
-                            <div className="card-votes-down">
-                                <div className="heart"></div>
-                                <p className="body-2">{idea.vote_down}</p>
-                            </div>
+                            <IdeaVoting
+                                voteUp={idea.vote_up}
+                                voteDown={idea.vote_down}
+                                id={idea.id}
+                            />
                         </div>
                         <div className="card-bottom">
                             <div className="card-title">

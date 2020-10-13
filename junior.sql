@@ -31,9 +31,8 @@ CREATE TABLE ideas (
     idea_desc VARCHAR,
     idea_stack VARCHAR,
     idea_duedate DATE,
-    partners INT NOT NULL,
-    vote_up INT,
-    vote_down INT,
+    vote_up INT NOT NULL DEFAULT 0,
+    vote_down INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

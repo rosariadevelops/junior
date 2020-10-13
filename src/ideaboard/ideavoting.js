@@ -1,35 +1,44 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState /* , useEffect  */ } from "react";
 import { useSelector } from "react-redux";
-//import { socket } from "./socket";
+import axios from "./../axios";
+import { socket } from "./../socket";
 
 export default function ideaVoting(props) {
-    console.log("idea voting props: ", props);
     const [upVote, setUpVote] = useState(props.voteUp);
     const [downVote, setDownVote] = useState(props.voteDown);
-    //let incrementCount = setUpVote(upVote + 1);
-    //const elemRef = useRef();
-    const votesUp = useSelector((state) => state && state.votesUp);
-    const votesDown = useSelector((state) => state && state.votesDown);
 
-    useEffect(() => {
-        // dispatch(recieveIdeas());
-    }, []);
+    const votesUp = useSelector((state) => state && state.voteUps);
+    const votesDown = useSelector((state) => state && state.voteDowns);
+
+    function insertUp() {
+        //e.preventDefault();
+        setUpVote(upVote + 1);
+        console.log("cardId: ", props.id);
+        socket.emit(`Up Vote on Card`, upVote + 1);
+    }
+
+    function insertDown() {
+        //e.preventDefault();
+        setDownVote(downVote + 1);
+        console.log("cardId: ", props.id);
+        socket.emit(`Up Vote on Card`, downVote + 1);
+    }
+
+    console.log("votesUp: ", votesUp);
+    console.log("votesDown: ", votesDown);
+    /* if (!votesUp || !votesDown) {
+        return null;
+    } */
 
     return (
         <React.Fragment>
-            <div
-                className="card-votes-up"
-                onClick={() => setUpVote(upVote + 1)}
-            >
+            <div className="card-votes-up" onClick={() => insertUp()}>
                 <div className="heart"></div>
-                <p className="body-2">{upVote}</p>
+                <p className="body-2">{votesUp}</p>
             </div>
-            <div
-                className="card-votes-down"
-                onClick={() => setDownVote(downVote + 1)}
-            >
+            <div className="card-votes-down" onClick={() => insertDown()}>
                 <div className="heart"></div>
-                <p className="body-2">{downVote}</p>
+                <p className="body-2">{votesDown}</p>
             </div>
         </React.Fragment>
     );

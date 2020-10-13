@@ -1,44 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import IdeaCard from "./ideacard";
 //import CreateIdea from "./createidea";
 //import Modal from "./modal";
-import IdeaModal from "./ideamodal";
+//import IdeaModal from "./ideamodal";
 import useModal from "./../useModal";
 //import CreateIdea from "./createidea";
 import ModalComponent from "./../modal";
-//import { Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { recieveIdeas } from "./../redux/actions";
-//import "bootstrap/dist/css/bootstrap.min.css";
-//import { Link } from "react-router-dom";
 
 export default function IdeaBoard() {
     const dispatch = useDispatch();
     const { isVisible, toggle } = useModal();
+    const [create, setCreate] = useState({ createIdea: false });
 
     useEffect(() => {
         dispatch(recieveIdeas());
     }, []);
 
-    //function modalContent() {}
-
-    /* const ideas = useSelector(
-        (state) => state.ideas && state.ideas.filter((user) => user.accepted)
-    ); */
     const ideas = useSelector((state) => state.ideas);
     console.log("IDEAS COMPONENT: ", ideas);
 
-    const ideaId = useSelector(
+    /* const ideaId = useSelector(
         (state) => state.ideas && state.ideas.filter((idea) => idea.id)
     );
     const ideaOne = useSelector(
         (state) => state.ideas && state.ideas.filter((idea) => idea.id === 1)
-    );
+    ); */
+
+    function createIdea(e) {
+        e.preventDefault();
+        toggle();
+        setCreate((create.createIdea = true));
+        console.log("create: ", create);
+    }
 
     return (
         <React.Fragment>
             <div className="add-idea">
-                <div className="plus" onClick={toggle}>
+                <div className="plus" onClick={(e) => createIdea(e)}>
                     <div className="plus-h"></div>
                     <div className="plus-v"></div>
                 </div>
@@ -49,7 +49,11 @@ export default function IdeaBoard() {
             </div>
 
             {isVisible && (
-                <ModalComponent isVisible={isVisible} hide={toggle} />
+                <ModalComponent
+                    isVisible={isVisible}
+                    hide={toggle}
+                    create={create}
+                />
             )}
         </React.Fragment>
     );

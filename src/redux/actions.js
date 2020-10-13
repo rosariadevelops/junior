@@ -24,18 +24,34 @@ export async function acceptIdeaReq(otherUserId) {
     };
 }
 
-export async function votesUp(votes) {
-    //console.log("LATEST TEN MESSAGES ACTIONS: ", msgs);
+export async function renderVotesUp(votesUp) {
+    console.log("GETTING ALL VOTES UP ACTIONS: ", votesUp);
     return {
         type: "GETTING ALL VOTES UP",
-        votesUp: votes,
+        allVotesUp: votesUp,
     };
 }
 
-export async function votesDown(votes) {
-    //console.log("LATEST TEN MESSAGES ACTIONS: ", msgs);
+export async function renderVotesDown(votesDown) {
+    console.log("GETTING ALL VOTES DOWN ACTIONS: ", votesDown);
     return {
-        type: "GETTING ALL VOTES UP",
-        votesUp: votes,
+        type: "GETTING ALL VOTES DOWN",
+        allVotesDown: votesDown,
+    };
+}
+
+export async function addNewVoteUp(count) {
+    console.log("NEW VOTE UP ACTION: ", count);
+    return {
+        type: "NEW VOTE UP ADDED",
+        votesUp: count,
+    };
+}
+
+export async function addNewVoteDown(count) {
+    console.log("NEW VOTE DOWN ACTION: ", count);
+    return {
+        type: "NEW VOTE DOWN ADDED",
+        votesDown: count,
     };
 }

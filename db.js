@@ -148,22 +148,33 @@ module.exports.getIdeaInfo = (id) => {
     );
 };
 
-module.exports.insertVoteUp = (count) => {
+module.exports.getVotes = (id) => {
     return db.query(
         `
-    INSERT INTO ideas (vote_up)
-        VALUES ($1)
-        RETURNING vote_up;`,
-        [count]
+    SELECT vote_up, vote_down FROM ideas 
+    WHERE id = ($1);`,
+        [id]
     );
 };
 
-module.exports.insertVoteDown = (count) => {
+module.exports.insertVoteUp = (idea_id, count) => {
     return db.query(
         `
-    INSERT INTO ideas (vote_down)
-        VALUES ($1)
+        UPDATE ideas
+        SET vote_up = ($2)
+        WHERE id = $1
+        RETURNING vote_up;`,
+        [idea_id, count]
+    );
+};
+
+module.exports.insertVoteDown = (idea_id, count) => {
+    return db.query(
+        `
+        UPDATE ideas
+        SET vote_down = ($2)
+        WHERE id = $1
         RETURNING vote_down;`,
-        [count]
+        [idea_id, count]
     );
 };

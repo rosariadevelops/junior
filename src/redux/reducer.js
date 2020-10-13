@@ -25,15 +25,27 @@ export default function (state = {}, action) {
         console.log("ALL VOTES UP REDUCER: ", action);
         state = {
             ...state,
-            votesUp: action.votesUp,
+            voteUps: action.allVotesUp,
         };
     } else if (action.type === "GETTING ALL VOTES DOWN") {
         console.log("ALL VOTES DOWN REDUCER: ", action);
         state = {
             ...state,
-            votesDown: action.votesDown,
+            voteDowns: action.allVotesDown,
+        };
+    } else if (action.type === "NEW VOTE UP ADDED") {
+        console.log("NEW VOTE UP ADDED REDUCER: ", action);
+        state = {
+            ...state,
+            voteUpAdded: action.votesUp,
+        };
+    } else if (action.type === "NEW VOTE DOWN ADDED") {
+        console.log("NEW VOTE DOWN ADDED REDUCER: ", action);
+        state = {
+            ...state,
+            voteDownAdded: action.votesDown,
         };
     }
-    console.log("RECIEVE IDEAS REDUCER: ", state.ideas);
+    console.log("STATE REDUCER: ", state);
     return state;
 }
