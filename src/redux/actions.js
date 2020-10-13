@@ -40,18 +40,18 @@ export async function renderVotesDown(votesDown) {
     };
 }
 
-export async function addNewVoteUp(count) {
-    console.log("NEW VOTE UP ACTION: ", count);
+export async function addNewVoteUp(newUpVote) {
+    console.log("NEW VOTE UP ACTION: ", newUpVote);
     return {
         type: "NEW VOTE UP ADDED",
-        votesUp: count,
+        newUpVote: newUpVote,
     };
 }
 
-export async function addNewVoteDown(count) {
-    console.log("NEW VOTE DOWN ACTION: ", count);
+export async function addNewVoteDown(newDownVote) {
+    console.log("NEW VOTE DOWN ACTION: ", newDownVote);
     return {
         type: "NEW VOTE DOWN ADDED",
-        votesDown: count,
+        newDownVote: newDownVote,
     };
 }

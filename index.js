@@ -517,32 +517,26 @@ io.on("connection", (socket) => {
     });
 
     socket.on(`Up Vote on Card`, (count) => {
-        console.log("working????????");
-        console.log("count: ", count);
+        //console.log("working????????");
+        //console.log("count: ", count);
         db.insertVoteUp(1, count)
             .then(({ rows }) => {
-                console.log("upvote server result: ", rows[0].vote_up);
+                //console.log("upvote server result: ", rows[0].vote_up);
                 const voteup = rows[0].vote_up;
-                const newUpVote = {
-                    voteup,
-                };
-                console.log("newUpVote: ", newUpVote);
-                io.sockets.emit("newUpVote", newUpVote);
+                //console.log("voteup: ", voteup);
+                io.sockets.emit("newUpVote", voteup);
             })
             .catch((err) => console.log("error in insertVoteUp: ", err));
     });
-    socket.on(`Up Vote on Card`, (count) => {
+    socket.on(`Down Vote on Card`, (count) => {
         console.log("working????????");
         console.log("count: ", count);
         db.insertVoteDown(1, count)
             .then(({ rows }) => {
                 console.log("downvote server result: ", rows[0].vote_down);
                 const votedown = rows[0].vote_down;
-                const newDownVote = {
-                    votedown,
-                };
-                console.log("newDownVote: ", newDownVote);
-                io.sockets.emit("newDownVote", newDownVote);
+                console.log("votedown: ", votedown);
+                io.sockets.emit("newDownVote", votedown);
             })
             .catch((err) => console.log("error in insertVoteDown: ", err));
     });

@@ -24,15 +24,15 @@ export const init = (store) => {
         console.log("ALL VOTES DOWN SOCKET: ", votesDown);
     });
 
-    socket.on("newUpVote", (count) => {
-        const newVoteUp = count.voteup;
-        console.log("Adding a new up vote ", newVoteUp);
-        store.dispatch(addNewVoteUp(newVoteUp));
+    socket.on("newUpVote", (newUpVote) => {
+        //const newVoteUp = count.voteup;
+        console.log("Adding a new up vote ", newUpVote);
+        store.dispatch(addNewVoteUp(newUpVote));
     });
 
-    socket.on("newDownVote", (count) => {
-        const newVoteDown = count.votedown;
-        console.log("Adding a new down vote ", newVoteDown);
-        store.dispatch(addNewVoteDown(newVoteDown));
+    socket.on("newDownVote", (newDownVote) => {
+        //const newVoteDown = count.votedown;
+        console.log("Adding a new down vote ", newDownVote);
+        store.dispatch(addNewVoteDown(newDownVote));
     });
 };

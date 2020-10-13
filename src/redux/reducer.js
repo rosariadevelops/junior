@@ -37,13 +37,13 @@ export default function (state = {}, action) {
         console.log("NEW VOTE UP ADDED REDUCER: ", action);
         state = {
             ...state,
-            voteUpAdded: action.votesUp,
+            voteUps: action.newUpVote,
         };
     } else if (action.type === "NEW VOTE DOWN ADDED") {
         console.log("NEW VOTE DOWN ADDED REDUCER: ", action);
         state = {
             ...state,
-            voteDownAdded: action.votesDown,
+            voteDowns: action.newDownVote,
         };
     }
     console.log("STATE REDUCER: ", state);
