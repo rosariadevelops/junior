@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-/* import IdeaRequestButton from "./idearequestbutton";
+import IdeaRequestButton from "./idearequestbutton";
 import IdeaVoting from "./ideavoting";
-import { useDispatch, useSelector } from "react-redux";
-import { recieveIdeas } from "./../actions"; */
+//import { useDispatch, useSelector } from "react-redux";
 import axios from "./../axios";
 import { Link } from "react-router-dom";
-import IdeaVoting from "./ideavoting";
+import { socket } from "./../socket";
 
 //import { useStatefulFields } from "./../usestatefulfields";
 //import { useAuthSubmit } from "./../useauthsubmit";
@@ -14,9 +13,9 @@ import IdeaVoting from "./ideavoting";
 export default function ideaModal(props) {
     const [idea, setIdea] = useState();
     console.log("ideaModal props: ", props);
+    socket.emit(`Card Id`, props.match.params.id);
 
     useEffect(() => {
-        // dispatch(recieveIdeas());
         async function fetchData() {
             const result = await axios.get(
                 `/idea/${props.match.params.id}.json`
@@ -52,7 +51,7 @@ export default function ideaModal(props) {
                         {/* {error && <p className="error">{error}</p>} */}
 
                         <h3>{idea.idea_title}</h3>
-                        {/* <IdeaRequestButton otherUserId={ideaExpanded.id} /> */}
+                        <IdeaRequestButton otherUserId={idea.idea_dev_id} />
                         <div className="card-creator">
                             <p className="body-2">@rosariadevelops</p>
                         </div>
@@ -71,14 +70,6 @@ export default function ideaModal(props) {
                                 <p className="caption">{idea.idea_stack}</p>
                             </div>
                         </div>
-                        {/* <button
-                        onClick={handleSubmit}
-                        type="submit"
-                        name="submitted"
-                        value="collaboration"
-                    >
-                        Request Collaboration
-                    </button> */}
                     </div>
                 </div>
             </div>

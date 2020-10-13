@@ -1,29 +1,3 @@
-/* const express = require("express");
-const app = express();
-const compression = require("compression");
-
-app.use(compression());
-
-if (process.env.NODE_ENV != "production") {
-    app.use(
-        "/bundle.js",
-        require("http-proxy-middleware")({
-            target: "http://localhost:8080/",
-        })
-    );
-} else {
-    app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
-}
-
-app.get("*", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
-});
-
-app.listen(8080, function () {
-    console.log("I'm listening.");
-});
- */
-
 // MIDDLEWARE
 const express = require("express");
 const app = express();
@@ -325,23 +299,26 @@ app.get(`/idea-status/:otherUserId`, async (req, res) => {
         res.redirect("/welcome");
     } else {
         const { rows } = await db
-            .getIdeaStatus(req.params.otherUserId, req.session.userId)
+            .getIdeaStatus(req.session.userId)
             .catch((err) => console.log("err in getIdeaStatus: ", err));
-        console.log("results: ", rows[0]);
+        console.log("getIdeaStatus results: ", rows);
         if (rows.length > 0) {
             console.log("idea request PENDING");
             if (
                 rows[0].creator_id === req.session.userId &&
                 rows[0].accepted === false
             ) {
-                console.log("logged in user SENT the request");
+                console.log("Logged in user made the ideacard");
                 res.json({
-                    buttonText: "Cancel colaboration",
+                    buttonText: "Cancel pairing",
+                    creatorId: rows[0].creator_id,
                 });
             } else if (rows[0].accepted === true) {
                 console.log("These guys are making some projects!");
                 res.json({
-                    buttonText: "Remove request",
+                    buttonText: "Pairing Accepted",
+                    greyOutButton: true,
+                    creatorId: rows[0].creator_id,
                 });
             } else if (
                 rows[0].requester_id === req.session.userId &&
@@ -349,13 +326,14 @@ app.get(`/idea-status/:otherUserId`, async (req, res) => {
             ) {
                 console.log("logged in user RECEIVED the request");
                 res.json({
-                    buttonText: "Accept colaboration",
+                    buttonText: "Accept pairing",
+                    creatorId: rows[0].creator_id,
                 });
             }
         } else {
             console.log("NO request existing");
             res.json({
-                buttonText: "Request colaboration",
+                buttonText: "Request pairing",
             });
         }
         /* res.json({
@@ -404,6 +382,7 @@ app.post("/idea-status/:otherUserId/accept-colab", async (req, res) => {
             data: rows[0],
             status: "Delete friend",
             success: true,
+            ideaBecomesProject: true,
         });
     } else {
         res.json({
@@ -500,26 +479,22 @@ io.on("connection", (socket) => {
     if (!loggedUser) {
         return socket.disconnect(true);
     }
-    //console.log("req.params socket: ", socket.handshake.query.param);
-    //console.log("socket.request.res: ", socket.request.res);
-    //db.getVotesUp(cardId).then
-    /* db.getUpVotes(cardId).then(({ rows }) => {
-        console.log("rows:", rows);
-        //io.sockets.emit("upVotes", rows);
-    }); */
 
-    db.getVotes(1).then(({ rows }) => {
-        console.log("rows: ", rows[0]);
-        const votesUp = rows[0].vote_up;
-        const votesDown = rows[0].vote_down;
-        io.sockets.emit("votesUp", votesUp);
-        io.sockets.emit("votesDown", votesDown);
+    socket.on(`Card Id`, (cardId) => {
+        db.getVotes(cardId).then(({ rows }) => {
+            console.log("socket card id: ", cardId);
+            console.log("socket card id rows: ", rows[0]);
+            const votesUp = rows[0].vote_up;
+            const votesDown = rows[0].vote_down;
+            io.sockets.emit("votesUp", votesUp);
+            io.sockets.emit("votesDown", votesDown);
+        });
     });
 
-    socket.on(`Up Vote on Card`, (count) => {
+    socket.on(`Up Vote on Card`, (insertUpObj) => {
         //console.log("working????????");
-        //console.log("count: ", count);
-        db.insertVoteUp(1, count)
+        console.log("insertUpObj: ", insertUpObj);
+        db.insertVoteUp(insertUpObj.cardId, insertUpObj.count)
             .then(({ rows }) => {
                 //console.log("upvote server result: ", rows[0].vote_up);
                 const voteup = rows[0].vote_up;
@@ -528,10 +503,10 @@ io.on("connection", (socket) => {
             })
             .catch((err) => console.log("error in insertVoteUp: ", err));
     });
-    socket.on(`Down Vote on Card`, (count) => {
+    socket.on(`Down Vote on Card`, (insertDownObj) => {
         console.log("working????????");
-        console.log("count: ", count);
-        db.insertVoteDown(1, count)
+        console.log("insertDownObj: ", insertDownObj);
+        db.insertVoteDown(insertDownObj.cardId, insertDownObj.count)
             .then(({ rows }) => {
                 console.log("downvote server result: ", rows[0].vote_down);
                 const votedown = rows[0].vote_down;

@@ -10,7 +10,7 @@ export default function friendRequest({ otherUserId }) {
         (async () => {
             console.log("otherUserId: ", otherUserId);
             const { data } = await axios.get(`/idea-status/${otherUserId}`);
-            console.log("result: ", data);
+            console.log("DATA DATA DATA: ", data);
             if (!abort) {
                 setrequestStatus(data.buttonText);
             }

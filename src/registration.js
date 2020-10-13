@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useStatefulFields } from "./usestatefulfields";
-import { useAuthSubmit } from "./useAuthSubmit";
+import { useAuthSubmit } from "./useauthsubmit";
 
 export default function Registration() {
     console.log("is this working?");

@@ -95,13 +95,13 @@ module.exports.getProjects = (id) => {
     );
 };
 
-module.exports.getIdeaStatus = (creator_id, requester_id) => {
+module.exports.getIdeaStatus = (loggedInUser) => {
     return db.query(
         `
     SELECT * FROM ideaToProject 
-    WHERE (creator_id = $1 AND requester_id = $2)
-    OR (creator_id = $2 AND requester_id = $1);`,
-        [creator_id, requester_id]
+    WHERE (creator_id = $1)
+    OR (requester_id = $1);`,
+        [loggedInUser]
     );
 };
 
@@ -162,7 +162,7 @@ module.exports.insertVoteUp = (idea_id, count) => {
         `
         UPDATE ideas
         SET vote_up = ($2)
-        WHERE id = $1
+        WHERE id = ($1)
         RETURNING vote_up;`,
         [idea_id, count]
     );
@@ -173,7 +173,7 @@ module.exports.insertVoteDown = (idea_id, count) => {
         `
         UPDATE ideas
         SET vote_down = ($2)
-        WHERE id = $1
+        WHERE id = ($1)
         RETURNING vote_down;`,
         [idea_id, count]
     );

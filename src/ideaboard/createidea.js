@@ -7,16 +7,7 @@ export default function createIdeaModal() {
     const [error, handleSubmit] = useAuthSubmit("/create-idea", value);
     return (
         <React.Fragment>
-            {/* <div className="modal">
-                <div className="overlay"></div> */}
             <div className="form">
-                {/* <div className="close-button">
-                        <a onClick={hide}>
-                            <span className="close-modal-left"></span>
-                            <span className="close-modal-right"></span>
-                        </a>
-                    </div>
-                     */}
                 {error && <p className="error">{error}</p>}
                 <input
                     onChange={handleChange}
@@ -67,7 +58,6 @@ export default function createIdeaModal() {
                     Create project idea
                 </button>
             </div>
-            {/*  </div> */}
         </React.Fragment>
     );
 }

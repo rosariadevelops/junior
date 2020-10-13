@@ -1,6 +1,5 @@
 import React, { useState /* , useEffect  */ } from "react";
 import { useSelector } from "react-redux";
-import axios from "./../axios";
 import { socket } from "./../socket";
 
 export default function ideaVoting(props) {
@@ -12,19 +11,24 @@ export default function ideaVoting(props) {
     function insertUp() {
         //e.preventDefault();
         setUpVote(upVote + 1);
-        console.log("cardId: ", props.id);
-        socket.emit(`Up Vote on Card`, upVote + 1);
+        let insertUpObj = {
+            cardId: props.id,
+            count: upVote + 1,
+        };
+        socket.emit(`Up Vote on Card`, insertUpObj);
     }
 
     function insertDown() {
         //e.preventDefault();
         setDownVote(downVote + 1);
-        console.log("cardId: ", props.id);
-        socket.emit(`Down Vote on Card`, downVote + 1);
+        let insertDownObj = {
+            cardId: props.id,
+            count: downVote + 1,
+        };
+        socket.emit(`Down Vote on Card`, insertDownObj);
     }
 
-    console.log("voteUps: ", voteUps);
-    console.log("votesDown: ", votesDown);
+    console.log(`PROPS OF CARD ${props.id}`, props);
     /* if (!votesUp || !votesDown) {
         return null;
     } */

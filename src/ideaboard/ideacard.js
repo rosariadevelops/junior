@@ -15,6 +15,7 @@ export default function IdeaCard({ idea }) {
                     </div>
                     <div className="card-votes">
                         <IdeaVoting
+                            id={idea.id}
                             voteUp={idea.vote_up}
                             voteDown={idea.vote_down}
                         />
