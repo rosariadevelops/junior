@@ -1,11 +1,15 @@
 import React from "react";
 import IdeaVoting from "./ideavoting";
 import { Link } from "react-router-dom";
+// import { socket } from "./../socket";
 
 export default function IdeaCard({ idea }) {
-    console.log("Idea ID", idea.id);
+    //console.log("Idea ID", idea.id);
     //const { isVisible, toggle } = useModal();
     //const ideasList = ideas.ideas;
+    // console.log("ideaCARD: ", idea.id);
+    // socket.emit(`Card Id`, idea.id);
+
     return (
         <div className="idea-card">
             <Link to={"/idea/" + idea.id}>

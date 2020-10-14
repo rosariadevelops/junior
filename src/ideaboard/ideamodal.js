@@ -4,7 +4,7 @@ import IdeaVoting from "./ideavoting";
 //import { useDispatch, useSelector } from "react-redux";
 import axios from "./../axios";
 import { Link } from "react-router-dom";
-import { socket } from "./../socket";
+// import { socket } from "./../socket";
 
 //import { useStatefulFields } from "./../usestatefulfields";
 //import { useAuthSubmit } from "./../useauthsubmit";
@@ -13,7 +13,7 @@ import { socket } from "./../socket";
 export default function ideaModal(props) {
     const [idea, setIdea] = useState();
     console.log("ideaModal props: ", props);
-    socket.emit(`Card Id`, props.match.params.id);
+    // socket.emit(`Card Id`, props.match.params.id);
 
     useEffect(() => {
         async function fetchData() {
@@ -51,7 +51,10 @@ export default function ideaModal(props) {
                         {/* {error && <p className="error">{error}</p>} */}
 
                         <h3>{idea.idea_title}</h3>
-                        <IdeaRequestButton otherUserId={idea.idea_dev_id} />
+                        <IdeaRequestButton
+                            otherUserId={idea.idea_dev_id}
+                            ideaId={idea.id}
+                        />
                         <div className="card-creator">
                             <p className="body-2">@rosariadevelops</p>
                         </div>

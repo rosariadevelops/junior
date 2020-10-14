@@ -51,6 +51,7 @@ CREATE TABLE ideaToProject (
     id SERIAL PRIMARY KEY,
     creator_id INT REFERENCES juniors(id) NOT NULL,
     requester_id INT REFERENCES juniors(id) NOT NULL,
+    idea_id INT REFERENCES ideas(id) NOT NULL,
     accepted BOOLEAN DEFAULT false
 );
 
@@ -59,7 +60,8 @@ DROP TABLE IF EXISTS projects CASCADE;
 CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
     proj_title VARCHAR NOT NULL,
-    proj_dev_id INT NOT NULL REFERENCES juniors(id) ON DELETE CASCADE,
+    proj_dev_id_a INT NOT NULL REFERENCES juniors(id) ON DELETE CASCADE,
+    proj_dev_id_b INT NOT NULL REFERENCES juniors(id) ON DELETE CASCADE,
     proj_image VARCHAR,
     proj_desc VARCHAR,
     proj_stack VARCHAR,

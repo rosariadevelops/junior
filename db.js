@@ -72,6 +72,15 @@ module.exports.getIdeas = () => {
     );
 };
 
+module.exports.getIdea = (ideaId) => {
+    return db.query(
+        `
+    SELECT * FROM ideas
+    WHERE id = ($1);`,
+        [ideaId]
+    );
+};
+
 module.exports.getNameOfJunior = (id) => {
     return db.query(
         `
@@ -90,33 +99,44 @@ module.exports.getProjects = (id) => {
     return db.query(
         `
     SELECT * FROM projects
-    WHERE proj_dev_id = $1;`,
+    WHERE proj_dev_id = $1`,
         [id]
     );
 };
 
-module.exports.getIdeaStatus = (loggedInUser) => {
+/* module.exports.getIdeaStatus = (loggedInUser, idea_id) => {
     return db.query(
         `
     SELECT * FROM ideaToProject 
     WHERE (creator_id = $1)
-    OR (requester_id = $1);`,
-        [loggedInUser]
+    OR (requester_id = $1)
+    AND (idea_id = $3);`,
+        [loggedInUser, idea_id]
     );
-};
+}; */
 
-module.exports.insertIdeaRequest = (creator_id, requester_id) => {
+module.exports.getIdeaStatus = (loggedInUser, idea_id) => {
     return db.query(
         `
-        INSERT INTO ideaToProject (creator_id, requester_id, accepted)
-        VALUES ($1, $2, false)
-        RETURNING *
-        `,
-        [creator_id, requester_id]
+    SELECT * FROM ideaToProject 
+    WHERE (requester_id = $1 AND idea_id = $2)
+    OR (requester_id = $2 AND idea_id = $1)`,
+        [loggedInUser, idea_id]
     );
 };
 
-module.exports.cancelIdeaRequest = (creator_id, requester_id) => {
+module.exports.insertIdeaRequest = (creator_id, requester_id, idea_id) => {
+    return db.query(
+        `
+        INSERT INTO ideaToProject (creator_id, requester_id, idea_id, accepted)
+        VALUES ($1, $2, $3, false)
+        RETURNING *
+        `,
+        [creator_id, requester_id, idea_id]
+    );
+};
+
+module.exports.cancelIdeaRequest = (creator_id, requester_id, idea_id) => {
     return db.query(
         `
         DELETE FROM ideaToProject
@@ -136,6 +156,30 @@ module.exports.acceptIdeaRequest = (creator_id, requester_id) => {
         OR (creator_id = $2 AND requester_id = $1)
         RETURNING *;`,
         [creator_id, requester_id]
+    );
+};
+
+module.exports.moveIdeaToProject = (
+    proj_title,
+    proj_dev_id_a,
+    proj_dev_id_b,
+    proj_desc,
+    proj_stack,
+    proj_duedate
+) => {
+    return db.query(
+        `
+        INSERT INTO (proj_title, proj_dev_id_a, proj_dev_id_b, proj_desc, proj_stack, proj_duedate) 
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING *;`,
+        [
+            proj_title,
+            proj_dev_id_a,
+            proj_dev_id_b,
+            proj_desc,
+            proj_stack,
+            proj_duedate,
+        ]
     );
 };
 

@@ -5,7 +5,7 @@ import {
     addNewVoteUp,
     addNewVoteDown,
 } from "./redux/actions";
-console.log(renderVotesUp, renderVotesDown, addNewVoteUp, addNewVoteDown);
+//console.log(renderVotesUp, renderVotesDown, addNewVoteUp, addNewVoteDown);
 
 export let socket;
 
@@ -21,7 +21,7 @@ export const init = (store) => {
 
     socket.on("votesDown", (votesDown) => {
         store.dispatch(renderVotesDown(votesDown));
-        console.log("ALL VOTES DOWN SOCKET: ", votesDown);
+        //console.log("ALL VOTES DOWN SOCKET: ", votesDown);
     });
 
     socket.on("newUpVote", (newUpVote) => {
@@ -32,7 +32,7 @@ export const init = (store) => {
 
     socket.on("newDownVote", (newDownVote) => {
         //const newVoteDown = count.votedown;
-        console.log("Adding a new down vote ", newDownVote);
+        //console.log("Adding a new down vote ", newDownVote);
         store.dispatch(addNewVoteDown(newDownVote));
     });
 };

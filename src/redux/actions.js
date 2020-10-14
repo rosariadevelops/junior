@@ -9,15 +9,16 @@ export async function recieveIdeas() {
     };
 }
 
-export async function acceptIdeaReq(otherUserId) {
+export async function acceptIdeaReq(ideaId, otherUserId) {
     console.log("ACCEPT IDEA ID: ", otherUserId);
     const { data } = await axios.post(
-        `/idea-status/${otherUserId}/accept-colab`
+        `/idea-status/${ideaId}/${otherUserId}/accept-colab`
     );
 
     console.log("ACCEPT REQUEST: ", data);
     return {
         type: "ACCEPT COLAB",
+        data,
         status: data.status,
         accepted: data.accepted,
         id: otherUserId,
@@ -28,15 +29,15 @@ export async function renderVotesUp(votesUp) {
     console.log("GETTING ALL VOTES UP ACTIONS: ", votesUp);
     return {
         type: "GETTING ALL VOTES UP",
-        allVotesUp: votesUp,
+        votesUp: votesUp,
     };
 }
 
 export async function renderVotesDown(votesDown) {
-    console.log("GETTING ALL VOTES DOWN ACTIONS: ", votesDown);
+    //console.log("GETTING ALL VOTES DOWN ACTIONS: ", votesDown);
     return {
         type: "GETTING ALL VOTES DOWN",
-        allVotesDown: votesDown,
+        votesDown: votesDown,
     };
 }
 
@@ -49,7 +50,7 @@ export async function addNewVoteUp(newUpVote) {
 }
 
 export async function addNewVoteDown(newDownVote) {
-    console.log("NEW VOTE DOWN ACTION: ", newDownVote);
+    //console.log("NEW VOTE DOWN ACTION: ", newDownVote);
     return {
         type: "NEW VOTE DOWN ADDED",
         newDownVote: newDownVote,
