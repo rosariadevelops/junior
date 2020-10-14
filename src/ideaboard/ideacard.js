@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IdeaVoting from "./ideavoting";
 import { Link } from "react-router-dom";
-// import { socket } from "./../socket";
+import { socket } from "./../socket";
 
 export default function IdeaCard({ idea }) {
     //console.log("Idea ID", idea.id);
@@ -9,7 +9,11 @@ export default function IdeaCard({ idea }) {
     //const ideasList = ideas.ideas;
     // console.log("ideaCARD: ", idea.id);
     // socket.emit(`Card Id`, idea.id);
-
+    /* 
+    useEffect(() => {
+        socket.emit(`Card Id`, idea.id);
+    }, []);
+ */
     return (
         <div className="idea-card">
             <Link to={"/idea/" + idea.id}>
@@ -17,13 +21,13 @@ export default function IdeaCard({ idea }) {
                     <div className="card-creator">
                         <p className="body-2">@rosariadevelops</p>
                     </div>
-                    <div className="card-votes">
+                    {/* <div className="card-votes">
                         <IdeaVoting
                             id={idea.id}
                             voteUp={idea.vote_up}
                             voteDown={idea.vote_down}
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="card-bottom">
                     <div className="card-title">

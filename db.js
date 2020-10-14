@@ -119,8 +119,7 @@ module.exports.getIdeaStatus = (loggedInUser, idea_id) => {
     return db.query(
         `
     SELECT * FROM ideaToProject 
-    WHERE (requester_id = $1 AND idea_id = $2)
-    OR (requester_id = $2 AND idea_id = $1)`,
+    WHERE (requester_id = $1 AND idea_id = $2)`,
         [loggedInUser, idea_id]
     );
 };
@@ -136,26 +135,24 @@ module.exports.insertIdeaRequest = (creator_id, requester_id, idea_id) => {
     );
 };
 
-module.exports.cancelIdeaRequest = (creator_id, requester_id, idea_id) => {
+module.exports.cancelIdeaRequest = (requester_id, idea_id) => {
     return db.query(
         `
         DELETE FROM ideaToProject
-        WHERE (creator_id = $1 AND requester_id = $2)
-        OR (requester_id = $2 AND creator_id = $1)
+        WHERE (requester_id = $1 AND idea_id = $2)
         RETURNING *;`,
-        [creator_id, requester_id]
+        [requester_id, idea_id]
     );
 };
 
-module.exports.acceptIdeaRequest = (creator_id, requester_id) => {
+module.exports.acceptIdeaRequest = (requester_id, idea_id) => {
     return db.query(
         `
         UPDATE ideaToProject 
         SET accepted = true
-        WHERE (creator_id = $1 AND requester_id = $2)
-        OR (creator_id = $2 AND requester_id = $1)
+        WHERE (requester_id = $1 and idea_id = $2)
         RETURNING *;`,
-        [creator_id, requester_id]
+        [requester_id, idea_id]
     );
 };
 

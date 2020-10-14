@@ -176,7 +176,6 @@ main {
     display: flex;
     flex: 1;
     flex-direction: column;
-    min-width: 920px;
     position: relative;
     min-height: 100vh;
 }
@@ -198,14 +197,18 @@ main {
 
 /* ----------- .MAIN ----------- */
 .main .title {
-    height: 60px;
+    /* height: 60px; */
+    text-align: center;
+}
+.main .title h2 {
+    padding: 50px 0 10px;
 }
 .grid-ctr {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
     padding: 20px;
 }
 
@@ -250,6 +253,21 @@ main {
     flex-direction: column;
     box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
         rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    transition: 500ms ease;
+    cursor: pointer;
+}
+.idea-card:hover {
+    transform: translateY(-10px);
+    box-shadow: rgba(17, 17, 26, 0.15) 0px 10px 15px,
+        rgba(17, 17, 26, 0.05) 0px 0px 18px;
+}
+.idea-card a {
+    color: #1b1b1b;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
 }
 .idea-card .body-2 {
     margin: 5px 0;
@@ -267,10 +285,14 @@ main {
     justify-content: space-between;
     width: 200px;
 }
+.idea-card .card-votes {
+    width: 120px;
+}
 .card-votes .heart {
     width: 20px;
     height: 20px;
     margin-right: 5px;
+    border-radius: 50%;
 }
 .card-votes-up {
     color: #5dcf04;
@@ -318,6 +340,8 @@ main {
     background: white;
     top: 10vh;
     position: absolute;
+    padding: 40px;
+    overflow-x: hidden;
 }
 .modal .overlay {
     position: absolute;

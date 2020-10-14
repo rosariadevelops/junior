@@ -4,18 +4,14 @@ import IdeaVoting from "./ideavoting";
 //import { useDispatch, useSelector } from "react-redux";
 import axios from "./../axios";
 import { Link } from "react-router-dom";
-// import { socket } from "./../socket";
-
-//import { useStatefulFields } from "./../usestatefulfields";
-//import { useAuthSubmit } from "./../useauthsubmit";
-//import IdeaBoard from "./ideaboard";
+import { socket } from "./../socket";
 
 export default function ideaModal(props) {
     const [idea, setIdea] = useState();
-    console.log("ideaModal props: ", props);
-    // socket.emit(`Card Id`, props.match.params.id);
+    // console.log("ideaModal props: ", props);
 
     useEffect(() => {
+        // socket.emit(`Card Id`, props.match.params.id);
         async function fetchData() {
             const result = await axios.get(
                 `/idea/${props.match.params.id}.json`
@@ -25,8 +21,6 @@ export default function ideaModal(props) {
         fetchData();
     }, []);
     console.log("idea: ", idea);
-    const ideaInfo = typeof idea;
-    console.log("ideaInfo: ", ideaInfo);
 
     if (!idea) {
         return null;

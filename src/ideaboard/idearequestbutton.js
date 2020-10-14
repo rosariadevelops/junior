@@ -3,7 +3,7 @@ import axios from "./../axios";
 
 export default function friendRequest({ otherUserId, ideaId }) {
     const [requestStatus, setRequestStatus] = useState("");
-    console.log("outside useEffect: ", otherUserId);
+    //console.log("outside useEffect: ", otherUserId);
     //console.log("requestStatus: ", requestStatus);
 
     useEffect(() => {
@@ -78,10 +78,10 @@ export default function friendRequest({ otherUserId, ideaId }) {
         } else if (requestStatus === "Go to Project") {
             console.log("THIS NEEDS TO MOVE TO PROJECTS");
             axios
-                .get(`/idea-status/${otherUserId}/pairing-accepted`)
+                .post(`/idea-status/${ideaId}/${otherUserId}/pairing-accepted`)
                 .then(({ data }) => {
                     console.log("/pairing-accepted response: ", data);
-                    setRequestStatus(data.status);
+                    location.replace(`/project/${ideaId}/`);
                 })
                 .catch(function (err) {
                     console.log(

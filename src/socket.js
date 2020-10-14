@@ -1,7 +1,8 @@
 import * as io from "socket.io-client";
 import {
-    renderVotesUp,
-    renderVotesDown,
+    /* renderVotesUp,
+    renderVotesDown, */
+    renderVotes,
     addNewVoteUp,
     addNewVoteDown,
 } from "./redux/actions";
@@ -14,25 +15,25 @@ export const init = (store) => {
         socket = io.connect();
     }
 
-    socket.on("votesUp", (votesUp) => {
-        store.dispatch(renderVotesUp(votesUp));
-        console.log("ALL VOTES UP SOCKET: ", votesUp);
+    socket.on("votes", (votes) => {
+        store.dispatch(renderVotes(votes));
+        //console.log("ALL VOTES SOCKET: ", votes);
     });
 
-    socket.on("votesDown", (votesDown) => {
+    /* socket.on("votesDown", (votesDown) => {
         store.dispatch(renderVotesDown(votesDown));
         //console.log("ALL VOTES DOWN SOCKET: ", votesDown);
-    });
+    }); */
 
-    socket.on("newUpVote", (newUpVote) => {
+    socket.on("newUpVote", (votes) => {
         //const newVoteUp = count.voteup;
-        console.log("Adding a new up vote ", newUpVote);
-        store.dispatch(addNewVoteUp(newUpVote));
+        console.log("Adding a new up vote ", votes);
+        store.dispatch(addNewVoteUp(votes));
     });
 
-    socket.on("newDownVote", (newDownVote) => {
+    socket.on("newDownVote", (votes) => {
         //const newVoteDown = count.votedown;
-        //console.log("Adding a new down vote ", newDownVote);
-        store.dispatch(addNewVoteDown(newDownVote));
+        console.log("Adding a new down vote ", votes);
+        store.dispatch(addNewVoteDown(votes));
     });
 };

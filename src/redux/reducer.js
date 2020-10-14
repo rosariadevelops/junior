@@ -20,24 +20,33 @@ export default function (state = {}, action) {
                 } */
             }),
         };
-        console.log("ACCEPT COLAB REDUCER: ", state);
-    } else if (action.type === "GETTING ALL VOTES UP") {
-        let incrementedArr = state.ideas.map((idea) => {
-            if (idea.id === action.votesUp.cardId) {
-                console.log("ALL VOTES UP REDUCER: ", action.votesUp);
-                state = {
-                    ...state,
-                    cardId: action.votesUp.cardId,
-                    voteUps: action.votesUp.upVotes,
-                };
-            } else {
-                return idea;
-            }
-        });
-        //console.log("REDCUER STATE? ", state);
+        //console.log("ACCEPT COLAB REDUCER: ", state);
+    } else if (action.type === "GETTING ALL VOTES") {
+        //console.log("ACTION VOTES UP REDUCER: ", action);
+        let incrementedArr =
+            state.ideas &&
+            state.ideas.map((idea) => {
+                if (idea.id === action.votes.cardId) {
+                    /* console.log(
+                        `IDEA GETTING ALL VOTES REDUCER ${idea.id}: `,
+                        idea
+                    ); */
+                    /* console.log(
+                        `ACTION VOTES REDUCER  ${idea.id}: `,
+                        action.votes
+                    ); */
+                    return (state = {
+                        ...state,
+                        cardId: action.votes.cardId,
+                        votes: action.votes,
+                    });
+                } else {
+                    return idea;
+                }
+            });
+        //console.log(`State for this card ${action.votes.cardId}`, state);
         return {
             ...state,
-            ideas: incrementedArr,
         };
     } else if (action.type === "GETTING ALL VOTES DOWN") {
         let incrementedArr = state.ideas.map((idea) => {
@@ -48,7 +57,7 @@ export default function (state = {}, action) {
                 );
                 state = {
                     ...state,
-                    voteUps: action.votesDown.downVotes,
+                    //votesDown: action.votesDown.downVotes,
                 };
             } else {
                 return idea;
@@ -66,37 +75,33 @@ export default function (state = {}, action) {
             voteDowns: action.allVotesDown,
         }; */
     } else if (action.type === "NEW VOTE UP ADDED") {
-        //console.log("NEW VOTE UP ADDED REDUCER: ", action);
-        //action.newUpVote.newUpVoteValue
-        let incrementedArr = state.ideas.map((idea) => {
-            if (idea.id === action.newUpVote.cardId) {
-                console.log("REDCUER IDEA? ", idea);
+        console.log("NEW VOTE UP ADDED ACTION INSIDE REDUCER: ", action.votes);
+        state.ideas.map((idea) => {
+            if (idea.id === action.votes.cardId) {
+                console.log("NEW VOTE UP ADDED IDEA INSIDE REDUCER: ", idea);
                 return {
                     ...idea,
-                    newUpVote: action.newUpVote.newUpVoteValue,
+                    vote_up: action.votes.votes.vote_up,
                 };
             } else {
                 return idea;
             }
         });
-        //console.log("REDCUER STATE? ", state);
         return {
             ...state,
-            ideas: incrementedArr,
+            //newUpVoteValue: newUpVoteValue,
         };
-
-        /*         state = {
-            ...state,
-            voteUps: action.newUpVote,
-        }; */
     } else if (action.type === "NEW VOTE DOWN ADDED") {
-        //console.log("NEW VOTE DOWN ADDED REDUCER: ", action);
-        let incrementedArr = state.ideas.map((idea) => {
-            if (idea.id === action.newDownVote.cardId) {
-                console.log("REDCUER IDEA? ", idea);
+        console.log(
+            "NEW VOTE DOWN ADDED ACTION INSIDE REDUCER: ",
+            action.votes
+        );
+        state.ideas.map((idea) => {
+            if (idea.id === action.votes.cardId) {
+                console.log("NEW VOTE UP ADDED IDEA INSIDE REDUCER: ", idea);
                 return {
-                    ...idea,
-                    newDownVote: action.newDownVote.newDownVoteValue,
+                    ...state,
+                    votes: action.votes.votes,
                 };
             } else {
                 return idea;
@@ -104,7 +109,7 @@ export default function (state = {}, action) {
         });
         return {
             ...state,
-            ideas: incrementedArr,
+            //newUpVoteValue: newUpVoteValue,
         };
     }
     console.log("REDCUER STATE? ", state);

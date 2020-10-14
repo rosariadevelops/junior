@@ -305,12 +305,13 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
         const getIdeaResult = await db
             .getIdea(req.params.ideaId)
             .catch((err) => console.log("err in getResult: ", err));
-        console.log("Idea Creator Id: ", getIdeaResult.rows[0]);
+        console.log("Idea: ", getIdeaResult.rows[0]);
 
+        const ideaId = getIdeaResult.rows[0].id;
         const ideaCreator = getIdeaResult.rows[0].idea_dev_id;
 
         const { rows } = await db
-            .getIdeaStatus(req.session.userId, getIdeaResult.rows[0].id)
+            .getIdeaStatus(req.session.userId, ideaId)
             .catch((err) => console.log("err in getIdeaStatus: ", err));
         console.log("getIdeaStatus results: ", rows);
 
@@ -322,10 +323,18 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
                 ideaId: req.params.ideaId,
                 greyButton: true,
             });
+        } else if (rows.length > 0 && ideaCreator == req.session.userId) {
+            console.log("Logged in user MADE the ideacard");
+            // THIS IS LOGGING AS TRUE FOR ID 1 CARD
+            res.json({
+                buttonText: "Accept team-up request",
+                ideaId: req.params.ideaId,
+                greyButton: true,
+            });
         } else if (rows.length > 0) {
             console.log("idea request PENDING");
             if (
-                rows[0].creator_id === req.session.userId &&
+                rows[0].requester_id === req.session.userId &&
                 rows[0].accepted === false
             ) {
                 console.log("Logged in user made the REQUEST");
@@ -344,7 +353,8 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
                     ideaId: req.params.ideaId,
                 });
             } else if (
-                rows[0].requester_id === req.session.userId &&
+                rows[0].creator_id === req.session.userId &&
+                rows[0].requester_id != req.session.userId &&
                 rows[0].accepted === false
             ) {
                 console.log("logged in user RECEIVED the request");
@@ -387,13 +397,13 @@ app.post(
             if (req.session.userId === rows[0].requester_id) {
                 res.json({
                     data: rows[0],
-                    status: "Cancel idea request",
+                    status: "Cancel team-up request",
                     success: true,
                 });
             } else {
                 res.json({
                     data: rows[0],
-                    status: "Accept idea request",
+                    status: "Accept team-up request",
                     success: true,
                 });
             }
@@ -427,11 +437,21 @@ app.post("/idea-status/:ideaId/:otherUserId/accept-colab", async (req, res) => {
 });
 
 // GET // MOVE IDEA TO PROJECTS
-app.get(
+app.post(
     "/idea-status/:ideaId/:otherUserId/pairing-accepted",
     async (req, res) => {
         console.log("I need to get the ID of the IDEA");
         console.log("REQ PARAMS: ", req.params);
+        // .ideaId = 2
+        // .otherUserId = 2
+
+        const getIdeaResult = await db
+            .getIdea(req.params.ideaId)
+            .catch((err) =>
+                console.log("err in post /pairing-accepted getResult: ", err)
+            );
+        console.log("getIdeaResult: ", getIdeaResult.rows[0]);
+
         /* proj_title,
         proj_dev_id_a,
         proj_dev_id_b,
@@ -439,7 +459,7 @@ app.get(
         proj_stack,
         proj_duedate; */
 
-        if (req.params.otherUserId) {
+        /* if (req.params.otherUserId) {
             const { rows } = await db
                 .moveIdeaToProject(
                     proj_title,
@@ -461,7 +481,7 @@ app.get(
             res.json({
                 success: false,
             });
-        }
+        } */
     }
 );
 
@@ -577,6 +597,7 @@ server.listen(8080, function () {
 
 // SOCKET.IO
 io.on("connection", (socket) => {
+    console.log(`socket.id ${socket.id} is now connected`);
     //
     const loggedUser = socket.request.session.userId;
     if (!loggedUser) {
@@ -590,18 +611,14 @@ io.on("connection", (socket) => {
             //const votesUp = rows[0].vote_up;
             //const votesDown = rows[0].vote_down;
             console.log(`SERVER ROWS of card ${cardId}: `, rows);
-            const votesUp = {
-                upVotes: rows[0].vote_up,
-                cardId,
+            const votes = {
+                votes: rows[0],
+                cardId: parseInt(cardId),
             };
-            const votesDown = {
-                downVotes: rows[0].vote_up,
-                cardId,
-            };
-            console.log(`SERVER votesUp of card ${cardId}: `, votesUp);
-            console.log(`SERVER votesDown of card ${cardId}: `, votesDown);
-            io.sockets.emit("votesUp", votesUp);
-            io.sockets.emit("votesDown", votesDown);
+            //console.log(`SERVER votesUp of card ${cardId}: `, votesUp);
+            //console.log(`SERVER votes of card ${cardId}: `, votes);
+            io.sockets.emit("votes", votes);
+            //io.sockets.emit("votesDown", votesDown);
         });
     });
 
@@ -611,27 +628,33 @@ io.on("connection", (socket) => {
         db.insertVoteUp(insertUpObj.cardId, insertUpObj.count)
             .then(({ rows }) => {
                 //console.log("upvote server result: ", rows[0].vote_up);
-                const voteup = {
-                    newUpVoteValue: rows[0].vote_up,
+                const votes = {
+                    votes: {
+                        vote_up: rows[0].vote_up,
+                        vote_down: rows[0].vote_down,
+                    },
                     cardId: insertUpObj.cardId,
                 };
                 //console.log("voteup: ", voteup);
-                io.sockets.emit("newUpVote", voteup);
+                io.sockets.emit("newUpVote", votes);
             })
             .catch((err) => console.log("error in insertVoteUp: ", err));
     });
     socket.on(`Down Vote on Card`, (insertDownObj) => {
-        console.log("working????????");
+        //console.log("working????????");
         console.log("insertDownObj: ", insertDownObj);
-        db.insertVoteDown(insertDownObj.cardId, insertDownObj.count)
+        db.insertVoteUp(insertDownObj.cardId, insertDownObj.count)
             .then(({ rows }) => {
-                console.log("downvote server result: ", rows[0].vote_down);
-                const votedown = {
-                    newUpVoteValue: rows[0].vote_down,
+                //console.log("upvote server result: ", rows[0].vote_up);
+                const votes = {
+                    votes: {
+                        vote_up: rows[0].vote_up,
+                        vote_down: rows[0].vote_down,
+                    },
                     cardId: insertDownObj.cardId,
                 };
-                console.log("votedown: ", votedown);
-                io.sockets.emit("newDownVote", votedown);
+                //console.log("voteup: ", voteup);
+                io.sockets.emit("newDownVote", votes);
             })
             .catch((err) => console.log("error in insertVoteDown: ", err));
     });

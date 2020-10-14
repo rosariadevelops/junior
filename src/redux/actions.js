@@ -25,13 +25,21 @@ export async function acceptIdeaReq(ideaId, otherUserId) {
     };
 }
 
-export async function renderVotesUp(votesUp) {
+export async function renderVotes(votes) {
+    //console.log("GETTING ALL VOTES ACTIONS: ", votes);
+    return {
+        type: "GETTING ALL VOTES",
+        votes,
+    };
+}
+
+/* export async function renderVotesUp(votesUp) {
     console.log("GETTING ALL VOTES UP ACTIONS: ", votesUp);
     return {
         type: "GETTING ALL VOTES UP",
         votesUp: votesUp,
     };
-}
+} */
 
 export async function renderVotesDown(votesDown) {
     //console.log("GETTING ALL VOTES DOWN ACTIONS: ", votesDown);
@@ -41,18 +49,18 @@ export async function renderVotesDown(votesDown) {
     };
 }
 
-export async function addNewVoteUp(newUpVote) {
-    console.log("NEW VOTE UP ACTION: ", newUpVote);
+export async function addNewVoteUp(votes) {
+    console.log("NEW VOTE UP ACTION: ", votes);
     return {
         type: "NEW VOTE UP ADDED",
-        newUpVote: newUpVote,
+        votes: votes,
     };
 }
 
-export async function addNewVoteDown(newDownVote) {
-    //console.log("NEW VOTE DOWN ACTION: ", newDownVote);
+export async function addNewVoteDown(votes) {
+    console.log("NEW VOTE DOWN ACTION: ", votes);
     return {
         type: "NEW VOTE DOWN ADDED",
-        newDownVote: newDownVote,
+        votes: votes,
     };
 }

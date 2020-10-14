@@ -19,7 +19,7 @@ export default function IdeaBoard() {
     }, []);
 
     const ideas = useSelector((state) => state.ideas);
-    console.log("IDEAS COMPONENT: ", ideas);
+    //console.log("IDEAS COMPONENT: ", ideas);
 
     /* const ideaId = useSelector(
         (state) => state.ideas && state.ideas.filter((idea) => idea.id)
@@ -42,6 +42,9 @@ export default function IdeaBoard() {
                     <div className="plus-h"></div>
                     <div className="plus-v"></div>
                 </div>
+            </div>
+            <div className="title">
+                <h2>Ideaboard</h2>
             </div>
             <div className="grid-ctr">
                 {ideas &&
