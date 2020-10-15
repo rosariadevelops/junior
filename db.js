@@ -65,17 +65,44 @@ module.exports.addIdea = (
     );
 };
 
+/* module.exports.getIdeas = () => {
+    return db.query(
+        `
+    SELECT * FROM ideas`
+    );
+}; */
+
 module.exports.getIdeas = () => {
     return db.query(
         `
-    SELECT * FROM ideas;`
+    SELECT * FROM ideas
+    JOIN ideas_stack
+    ON ideas_id = ideas.id`
+    );
+};
+
+module.exports.getStackByIdeaId = (idea_id) => {
+    return db.query(
+        `
+    SELECT * FROM ideas_stack
+    WHERE idea_id = ($1)`,
+        [idea_id]
+    );
+};
+
+module.exports.getStackByStack = (stack) => {
+    return db.query(
+        `
+    SELECT * FROM ideas_stack
+    WHERE stack = ($1)`,
+        [stack]
     );
 };
 
 module.exports.getIdea = (ideaId) => {
     return db.query(
         `
-    SELECT * FROM ideas
+    SELECT id, idea_title, idea_dev_id, idea_desc, idea_stack, AGE(idea_duedate), vote_up, vote_down  FROM ideas
     WHERE id = ($1);`,
         [ideaId]
     );

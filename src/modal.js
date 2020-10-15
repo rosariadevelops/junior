@@ -9,7 +9,8 @@ export default function Modal(props) {
     function clearCreateIdeaForm(e) {
         e.preventDefault();
         props.hide();
-        setCreate((props.create = false));
+        console.log("create: ", create);
+        //setCreate((props.create = false));
         console.log("create: ", create);
     }
 

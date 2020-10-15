@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { socket } from "./../socket";
 
 export default function ideaModal(props) {
+    console.log("ideaModal props: ", props);
     const [idea, setIdea] = useState();
     const [userFirst, setUserFirst] = useState();
     const [userLast, setUserLast] = useState();
@@ -22,6 +23,7 @@ export default function ideaModal(props) {
         }
         fetchData();
     }, []);
+    console.log("FETCH DATA IDEA DATA: ", idea);
 
     useEffect(() => {
         // socket.emit(`Card Id`, props.match.params.id);
@@ -58,6 +60,7 @@ export default function ideaModal(props) {
                         {/* {error && <p className="error">{error}</p>} */}
 
                         <h3>{idea.idea_title}</h3>
+                        <p className="due-date">{idea.idea_duedate}</p>
                         <IdeaRequestButton
                             otherUserId={idea.idea_dev_id}
                             ideaId={idea.id}
@@ -75,7 +78,7 @@ export default function ideaModal(props) {
                             />
                         </div>
                         <div className="card-bottom">
-                            <div className="card-title">
+                            <div className="card-content">
                                 <p>{idea.idea_desc}</p>
                             </div>
                             <div className="card-stack">

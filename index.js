@@ -305,7 +305,7 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
         const getIdeaResult = await db
             .getIdea(req.params.ideaId)
             .catch((err) => console.log("err in getResult: ", err));
-        console.log("Idea: ", getIdeaResult.rows[0]);
+        console.log("Idea: ", getIdeaResult.rows);
 
         const ideaId = getIdeaResult.rows[0].id;
         const ideaCreator = getIdeaResult.rows[0].idea_dev_id;

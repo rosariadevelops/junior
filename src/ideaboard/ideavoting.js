@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { socket } from "./../socket";
 
 export default function ideaVoting(props) {
-    console.log("ideaCARD: ", props);
+    console.log("ideaVoting props: ", props);
     const initialUpVotes = useSelector(
         (state) => state.votes && state.votes.votes.vote_up
     );

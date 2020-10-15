@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useStatefulFields } from "./../usestatefulfields";
 import { useAuthSubmit } from "./../useauthsubmit";
 
 export default function createIdeaModal() {
     const [value, handleChange] = useStatefulFields();
     const [error, handleSubmit] = useAuthSubmit("/create-idea", value);
+    const [stack, setStack] = useState([]);
+
+    //const stackArr = [];
+    const keyCheck = (e) => {
+        if (e.key === "Enter" || e.key === ",") {
+            e.preventDefault();
+            ///socket.emit("Latest chat message", e.target.value);
+            //stackArr.push(e.target.value);
+            //console.log("stackArr INSIDE: ", stackArr);
+            setStack([...stack, e.target.value]);
+            console.log("stack imsoode: ", stack);
+            e.target.value = "";
+        }
+    };
+    //console.log("stackArr: ", stackArr);
+
+    /* useEffect(() => {
+        keyCheck();
+    }, []); */
+
     return (
         <React.Fragment>
             <div className="form">
@@ -27,12 +47,14 @@ export default function createIdeaModal() {
                 />
                 <label htmlFor="idea_desc">Description:</label>
 
+                <div className="stack-rendered">{stack}</div>
                 <input
                     onChange={handleChange}
                     type="text"
                     name="idea_stack"
                     autoComplete="false"
-                    placeholder="Node.js"
+                    placeholder="Type and hit Enter"
+                    onKeyDown={keyCheck}
                 />
                 <label htmlFor="idea_stack">Stack:</label>
 

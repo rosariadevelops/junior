@@ -29,11 +29,19 @@ CREATE TABLE ideas (
     idea_dev_id INT NOT NULL REFERENCES juniors(id) ON DELETE CASCADE,
     idea_image VARCHAR,
     idea_desc VARCHAR,
-    idea_stack VARCHAR,
-    idea_duedate DATE,
+    idea_duedate DATE NOT NULL DEFAULT CURRENT_DATE,
     vote_up INT NOT NULL DEFAULT 0,
     vote_down INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS ideas_stack CASCADE;
+
+CREATE TABLE ideas_stack (
+    id SERIAL PRIMARY KEY,
+    idea_id INT NOT NULL REFERENCES ideas(id) ON DELETE CASCADE,
+    stack VARCHAR NOT NULL,
+    project_id INT
 );
 
 DROP TABLE IF EXISTS ideas_comments CASCADE;
@@ -64,7 +72,6 @@ CREATE TABLE projects (
     proj_dev_id_b INT NOT NULL REFERENCES juniors(id) ON DELETE CASCADE,
     proj_image VARCHAR,
     proj_desc VARCHAR,
-    proj_stack VARCHAR,
     proj_duedate DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
