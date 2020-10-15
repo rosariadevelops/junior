@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS ideas_stack CASCADE;
 CREATE TABLE ideas_stack (
     id SERIAL PRIMARY KEY,
     idea_id INT NOT NULL REFERENCES ideas(id) ON DELETE CASCADE,
-    stack VARCHAR NOT NULL,
+    stack TEXT [] NOT NULL,
     project_id INT
 );
 

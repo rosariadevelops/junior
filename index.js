@@ -269,7 +269,8 @@ app.get("/ideaboard", async (req, res) => {
         const { rows } = await db
             .getIdeas()
             .catch((err) => console.log("err in getIdeas: ", err));
-        //console.log("allIdeas results: ", rows);
+        console.log("allIdeas results: ", rows);
+
         res.json({
             success: true,
             ideas: rows,
@@ -280,15 +281,25 @@ app.get("/ideaboard", async (req, res) => {
 // POST // CREATE IDEA MODAL
 app.post("/create-idea", async (req, res) => {
     const loggedInUser = req.session.userId;
-    const { idea_title, idea_desc, idea_stack, idea_duedate } = req.body;
+    console.log("CREATE IDEA REQ BODY: ", req.body);
+    const { idea_title, idea_desc, idea_duedate, stack } = req.body;
+    console.log("stack array: ", stack);
 
-    const { rows } = await db
-        .addIdea(idea_title, loggedInUser, idea_desc, idea_stack, idea_duedate)
+    const addIdeaResult = await db
+        .addIdea(idea_title, loggedInUser, idea_desc, idea_duedate)
         .catch((err) => console.log("err in addIdea: ", err));
-    console.log("results: ", rows[0]);
+    console.log("addIdeaResult: ", addIdeaResult.rows[0]);
+
+    const addIdeaStackResult = await db.addIdeaStack(
+        addIdeaResult.rows[0].id,
+        stack
+    );
+
+    console.log("addIdeaStackResult: ", addIdeaStackResult.rows[0]);
     res.json({
         success: true,
-        ideaAdded: rows[0],
+        ideaAdded: addIdeaResult.rows[0],
+        ideaStack: addIdeaStackResult.rows[0],
     });
 });
 
@@ -304,8 +315,13 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
     } else {
         const getIdeaResult = await db
             .getIdea(req.params.ideaId)
-            .catch((err) => console.log("err in getResult: ", err));
+            .catch((err) => console.log("err in getIdeaResult: ", err));
         console.log("Idea: ", getIdeaResult.rows);
+
+        const getStackResult = await db
+            .getStackByIdeaId(req.params.ideaId)
+            .catch((err) => console.log("err in getStackResult: ", err));
+        console.log("Idea Stack: ", getStackResult.rows);
 
         const ideaId = getIdeaResult.rows[0].id;
         const ideaCreator = getIdeaResult.rows[0].idea_dev_id;

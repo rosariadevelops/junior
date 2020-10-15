@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useStatefulFields } from "./../usestatefulfields";
-import { useAuthSubmit } from "./../useauthsubmit";
+//import { useStatefulFields } from "./../usestatefulfields";
+//import { useAuthSubmit } from "./../useauthsubmit";
+import axios from "./../axios";
 
 export default function createIdeaModal() {
-    const [value, handleChange] = useStatefulFields();
-    const [error, handleSubmit] = useAuthSubmit("/create-idea", value);
+    //const [value, handleChange] = useState();
+    const [error, setError] = useState();
+    //const [state, setState] = useState();
     const [stack, setStack] = useState([]);
 
     //const stackArr = [];
@@ -12,14 +14,54 @@ export default function createIdeaModal() {
         if (e.key === "Enter" || e.key === ",") {
             e.preventDefault();
             ///socket.emit("Latest chat message", e.target.value);
-            //stackArr.push(e.target.value);
-            //console.log("stackArr INSIDE: ", stackArr);
             setStack([...stack, e.target.value]);
-            console.log("stack imsoode: ", stack);
+            console.log("stack inside keyCheck: ", stack);
             e.target.value = "";
         }
     };
-    //console.log("stackArr: ", stackArr);
+
+    /* function handleInput(e) {
+        const { name, value } = e.target;
+        setState({
+            [name]: value,
+        });
+    } */
+    const [value, setValue] = useState({});
+    const handleChange = (e) => {
+        setValue({
+            ...value,
+            [e.target.name]: e.target.value,
+            stack: [...stack],
+        });
+        console.log("useStatefulFields value: ", value);
+    };
+
+    console.log("handleInput: ", value);
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        axios
+            .post("/create-idea", value)
+            .then(function (response) {
+                console.log("login response:", response.data);
+                if (response) {
+                    location.replace("/");
+                } else {
+                    setError(true);
+                }
+            })
+            .catch(function (err) {
+                console.log("err in  POST /create-idea: ", err);
+            });
+        //}
+        console.log("login state:", this.state);
+    }
+
+    /* const valueTotal = {
+        ...value,
+        stack,
+    }; */
+    console.log("stack outside keycheck: ", stack);
 
     /* useEffect(() => {
         keyCheck();
@@ -30,7 +72,7 @@ export default function createIdeaModal() {
             <div className="form">
                 {error && <p className="error">{error}</p>}
                 <input
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     type="text"
                     name="idea_title"
                     autoComplete="false"
@@ -39,7 +81,7 @@ export default function createIdeaModal() {
                 <label htmlFor="idea_title">Idea title:</label>
 
                 <textarea
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     type="text"
                     name="idea_desc"
                     autoComplete="false"
@@ -49,7 +91,7 @@ export default function createIdeaModal() {
 
                 <div className="stack-rendered">{stack}</div>
                 <input
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     type="text"
                     name="idea_stack"
                     autoComplete="false"
@@ -61,7 +103,7 @@ export default function createIdeaModal() {
                 <input
                     className="idea_time"
                     autoComplete="false"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     type="date"
                     name="idea_duedate"
                     placeholder="2020-10-16"
@@ -72,7 +114,7 @@ export default function createIdeaModal() {
                 <label htmlFor="idea_duedate">Estimated duration:</label>
 
                 <button
-                    onClick={handleSubmit}
+                    onClick={(e) => handleSubmit(e)}
                     type="submit"
                     name="submitted"
                     value="registered"

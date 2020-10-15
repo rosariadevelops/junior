@@ -44,24 +44,17 @@ module.exports.findPwReset = (email) => {
     );
 };
 
-module.exports.addIdea = (
-    idea_title,
-    idea_dev_id,
-    idea_desc,
-    idea_stack,
-    idea_duedate
-) => {
+module.exports.addIdea = (idea_title, idea_dev_id, idea_desc, idea_duedate) => {
     return db.query(
         `
         INSERT INTO ideas (
             idea_title,
             idea_dev_id,
             idea_desc,
-            idea_stack,
             idea_duedate)
-        VALUES ($1, $2, $3, $4, $5)
+        VALUES ($1, $2, $3, $4)
         RETURNING *`,
-        [idea_title, idea_dev_id, idea_desc, idea_stack, idea_duedate]
+        [idea_title, idea_dev_id, idea_desc, idea_duedate]
     );
 };
 
@@ -72,12 +65,35 @@ module.exports.addIdea = (
     );
 }; */
 
+/* module.exports.addIdeaStack = (idea_id, stack) => {
+    return db.query(
+        `
+    INSERT INTO ideas (
+            idea_id,
+            stack)
+        VALUES ($1, $2)
+        RETURNING *`,
+        [idea_id, stack]
+    );
+}; */
+
+module.exports.addIdeaStack = (idea_id, arrayOfStack) => {
+    return db.query(
+        `
+    IçNSERT INTO ideas_stack (idea_id, stack)
+    VALUES ($1, $2)
+    RETURNING *`,
+        [idea_id, arrayOfStack]
+    );
+};
+
 module.exports.getIdeas = () => {
     return db.query(
         `
-    SELECT * FROM ideas
+    SELECT ideas.id, ideas.idea_title, ideas.idea_dev_id, ideas.idea_desc, AGE(ideas.idea_duedate), ideas.vote_up, ideas.vote_down, ideas_stack.stack
+    FROM ideas
     JOIN ideas_stack
-    ON ideas_id = ideas.id`
+    ON ideas.id = ideas_stack.idea_id`
     );
 };
 
@@ -102,7 +118,7 @@ module.exports.getStackByStack = (stack) => {
 module.exports.getIdea = (ideaId) => {
     return db.query(
         `
-    SELECT id, idea_title, idea_dev_id, idea_desc, idea_stack, AGE(idea_duedate), vote_up, vote_down  FROM ideas
+    SELECT id, idea_title, idea_dev_id, idea_desc, AGE(idea_duedate), vote_up, vote_down FROM ideas
     WHERE id = ($1);`,
         [ideaId]
     );

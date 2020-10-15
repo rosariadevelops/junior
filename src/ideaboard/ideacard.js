@@ -49,7 +49,7 @@ export default function IdeaCard({ idea }) {
                         <h5>{idea.idea_title}</h5>
                     </div>
                     <div className="card-stack">
-                        <p className="caption">{idea.idea_stack}</p>
+                        <p className="caption">{idea.stack}</p>
                     </div>
                 </div>
             </Link>
