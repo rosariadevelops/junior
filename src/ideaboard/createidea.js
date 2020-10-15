@@ -71,47 +71,54 @@ export default function createIdeaModal() {
         <React.Fragment>
             <div className="form">
                 {error && <p className="error">{error}</p>}
-                <input
-                    onChange={(e) => handleChange(e)}
-                    type="text"
-                    name="idea_title"
-                    autoComplete="false"
-                    placeholder="Simple React Weather App"
-                />
-                <label htmlFor="idea_title">Idea title:</label>
+                <h4>Share your project idea</h4>
+                <div className="input-ctr">
+                    <label htmlFor="idea_title">Idea title:</label>
+                    <input
+                        onChange={(e) => handleChange(e)}
+                        type="text"
+                        name="idea_title"
+                        autoComplete="false"
+                        placeholder="Simple React Weather App"
+                    />
+                </div>
+                <div className="input-ctr">
+                    <label htmlFor="idea_desc">Description:</label>
+                    <textarea
+                        onChange={(e) => handleChange(e)}
+                        type="text"
+                        name="idea_desc"
+                        autoComplete="false"
+                        placeholder="Looking to make something simple this weekend with one other person. This simple weather app will will only display the current weather for an area we choose."
+                    />
+                </div>
+                <div className="input-ctr">
+                    <label htmlFor="idea_stack">Stack:</label>
+                    <input
+                        onChange={(e) => handleChange(e)}
+                        type="text"
+                        name="idea_stack"
+                        autoComplete="false"
+                        placeholder="Type and hit Enter"
+                        onKeyDown={keyCheck}
+                    />
 
-                <textarea
-                    onChange={(e) => handleChange(e)}
-                    type="text"
-                    name="idea_desc"
-                    autoComplete="false"
-                    placeholder="Looking to make something simple this weekend with one other person. This simple weather app will will only display the current weather for an area we choose."
-                />
-                <label htmlFor="idea_desc">Description:</label>
-
-                <div className="stack-rendered">{stack}</div>
-                <input
-                    onChange={(e) => handleChange(e)}
-                    type="text"
-                    name="idea_stack"
-                    autoComplete="false"
-                    placeholder="Type and hit Enter"
-                    onKeyDown={keyCheck}
-                />
-                <label htmlFor="idea_stack">Stack:</label>
-
-                <input
-                    className="idea_time"
-                    autoComplete="false"
-                    onChange={(e) => handleChange(e)}
-                    type="date"
-                    name="idea_duedate"
-                    placeholder="2020-10-16"
-                    min="2020-10-16"
-                    max="2020-12-31"
-                    required
-                />
-                <label htmlFor="idea_duedate">Estimated duration:</label>
+                    <div className="stack-rendered">{stack}</div>
+                </div>
+                <div className="input-ctr">
+                    <label htmlFor="idea_duedate">Estimated duration:</label>
+                    <input
+                        className="idea_time"
+                        autoComplete="false"
+                        onChange={(e) => handleChange(e)}
+                        type="date"
+                        name="idea_duedate"
+                        placeholder="2020-10-16"
+                        min="2020-10-16"
+                        max="2020-12-31"
+                        required
+                    />
+                </div>
 
                 <button
                     onClick={(e) => handleSubmit(e)}

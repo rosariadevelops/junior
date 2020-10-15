@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSelector } from "react";
 import IdeaVoting from "./ideavoting";
 import { Link } from "react-router-dom";
 import axios from "./../axios";
@@ -17,6 +17,11 @@ export default function IdeaCard({ idea }) {
         }
         fetchUser();
     }, []);
+
+    //console.log("idea stack: ", idea.stack);
+    //const stackItem = useSelector((idea) => idea.stack);
+    // const stackItem = idea.stack && idea.stack.filter((idea) => idea);
+    console.log("idea stack: ", idea.stack);
 
     return (
         <div className="idea-card">
@@ -49,7 +54,11 @@ export default function IdeaCard({ idea }) {
                         <h5>{idea.idea_title}</h5>
                     </div>
                     <div className="card-stack">
-                        <p className="caption">{idea.stack}</p>
+                        {idea.stack.map((item) => (
+                            <p key={item} className="caption">
+                                {item}
+                            </p>
+                        ))}
                     </div>
                 </div>
             </Link>

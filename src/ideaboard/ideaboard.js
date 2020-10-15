@@ -82,6 +82,13 @@ export default function IdeaBoard() {
                 <button
                     onClick={(e) => filterByValue(e)}
                     className="ibd-tags"
+                    value="Redux"
+                >
+                    Redux
+                </button>
+                <button
+                    onClick={(e) => filterByValue(e)}
+                    className="ibd-tags"
                     value="Vue.js"
                 >
                     Vue.js
@@ -100,13 +107,7 @@ export default function IdeaBoard() {
                 >
                     TypeScript
                 </button>
-                <button
-                    onClick={(e) => filterByValue(e)}
-                    className="ibd-tags"
-                    value="JavaScript"
-                >
-                    JavaScript
-                </button>
+
                 <button
                     onClick={(e) => filterByValue(e)}
                     className="ibd-tags"
