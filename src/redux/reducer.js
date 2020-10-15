@@ -99,39 +99,17 @@ export default function (state = {}, action) {
         };
     } else if (action.type === "LATEST COMMENTS") {
         console.log("LATEST COMMENTS REDUCER: ", action);
-        // action.comments.senders.sender_id
-        const senders = action.comments.slice(-1)[0];
-        const allSenders = senders.senders;
-        //const singleSender = allSenders.senders.filter((sender) => sender.id);
 
         const filteredComments = action.comments.filter(
             (comment) => comment.idea_id === state.id
         );
-        /* const allComments = allSenders.senders.filter(
-            (sender) => sender.sender_id === singleSender.id
-        ); */
-
-        let allCommentData = [];
-        for (let i = 0; i < filteredComments.length; ++i) {
-            for (let j = 0; j < allSenders.length; ++j) {
-                if (filteredComments[i].sender_id === allSenders[j].sender_id) {
-                    let singleComment = Object.assign(
-                        filteredComments[i],
-                        allSenders[j]
-                    );
-                    allCommentData.push(singleComment);
-                }
-            }
-        }
-
-        console.log("filtered Comments: ", allCommentData);
-        console.log("filtered Senders: ", allSenders);
+        console.log("filtered Comments: ", filteredComments);
         state = {
             ...state,
-            comments: allCommentData,
+            comments: filteredComments,
         };
     } else if (action.type === "NEW COMMENT ADDED") {
-        //console.log("NEW COMMENT ADDED REDUCER: ", action);
+        console.log("NEW COMMENT ADDED REDUCER: ", action);
         state = {
             ...state,
             comments: [...state.comments, action.newComment],

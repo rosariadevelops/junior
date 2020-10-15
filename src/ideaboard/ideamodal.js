@@ -92,7 +92,7 @@ export default function ideaModal(props) {
                             </div>
                         </div>
                         <div className="card-comments">
-                            <IdeaComments id={idea.id} />
+                            <IdeaComments ideaId={idea.id} />
                         </div>
                     </div>
                 </div>

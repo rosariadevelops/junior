@@ -654,17 +654,10 @@ io.on("connection", (socket) => {
 
         db.getLatestComments()
             .then(({ rows }) => {
-                console.log("getLatestComments RESULT:", rows);
-                db.getCommentSenders(cardId).then((result) => {
-                    //console.log("commentSenders result: ", result.rows);
-                    const allCommentSenders = {
-                        senders: result.rows,
-                    };
-                    const reverseComments = rows.reverse();
-                    reverseComments.push(allCommentSenders);
-                    console.log("reverseComments: ", reverseComments);
-                    io.sockets.emit("ideaComments", reverseComments);
-                });
+                //console.log("getLatestComments RESULT:", rows);
+                const reverseComments = rows.reverse();
+                //console.log("reverseComments: ", reverseComments);
+                io.sockets.emit("ideaComments", reverseComments);
             })
             .catch((err) => console.log("err in getLatestComments: ", err));
     });
@@ -706,10 +699,11 @@ io.on("connection", (socket) => {
             .catch((err) => console.log("error in insertVoteDown: ", err));
     });
 
-    socket.on("Latest comment", (newComment) => {
-        db.addComment(loggedUser, newComment).then(({ rows }) => {
+    socket.on("Latest comment", (newComment, ideaId) => {
+        db.addComment(loggedUser, newComment, ideaId).then(({ rows }) => {
             console.log("addComment result: ", rows);
-            db.renderNewComment(loggedUser).then((result) => {
+            db.renderNewComment(loggedUser, ideaId).then((result) => {
+                console.log("renderNewComment: ", result);
                 const newInfo = {
                     ...rows[0],
                     ...result.rows[0],

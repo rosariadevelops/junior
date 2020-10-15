@@ -259,43 +259,36 @@ module.exports.insertVoteDown = (idea_id, count) => {
 module.exports.getLatestComments = () => {
     return db.query(
         `
-    SELECT ideas_comments.id, sender_id, comment, ideas_comments.idea_id, ideas_comments.created_at
+    SELECT ideas_comments.id, sender_id, comment, ideas_comments.idea_id, ideas_comments.created_at, firstname, lastname
     FROM ideas_comments 
     JOIN ideas
     ON (idea_id = ideas.id)
+    JOIN juniors
+    ON (juniors.id = sender_id)
     ORDER BY created_at DESC`
     );
 };
 
-module.exports.getCommentSenders = (idea_id) => {
-    return db.query(
-        `
-    SELECT juniors.id, firstname, lastname, idea_id, sender_id 
-    FROM juniors 
-    JOIN ideas_comments
-    ON (sender_id = juniors.id AND idea_id = ($1))
-    ORDER BY created_at DESC`,
-        [idea_id]
-    );
-};
-
-module.exports.addComment = (sender_id, comment) => {
+module.exports.addComment = (sender_id, comment, idea_id) => {
     return db.query(
         `
     INSERT INTO ideas_comments 
-    (sender_id, comment) 
-    VALUES ($1, $2)
+    (sender_id, comment, idea_id) 
+    VALUES ($1, $2, $3)
     RETURNING *;`,
-        [sender_id, comment]
+        [sender_id, comment, idea_id]
     );
 };
 
-module.exports.renderNewComment = (sender_id) => {
+module.exports.renderNewComment = (loggedUser, ideaId) => {
     return db.query(
         `
-    SELECT firstname, lastname 
-    FROM juniors 
-    where id = ($1);`,
-        [sender_id]
+    SELECT firstname, lastname
+    FROM juniors
+    JOIN ideas_comments
+    ON (juniors.id = ($1) AND ideas_comments.idea_id = ($2))
+    ORDER BY created_at DESC
+    LIMIT 1`,
+        [loggedUser, ideaId]
     );
 };

@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { socket } from "./../socket";
 
-export default function ideaComments() {
-    //
+export default function ideaComments({ ideaId }) {
+    console.log("ideaId comments: ", ideaId);
     const comments = useSelector((state) => state && state.comments);
     const elemRef = useRef();
     console.log("comments in component: ", comments);
@@ -18,7 +18,7 @@ export default function ideaComments() {
     const keyCheck = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            socket.emit("Latest comment", e.target.value);
+            socket.emit("Latest comment", e.target.value, ideaId);
             e.target.value = "";
         }
     };
