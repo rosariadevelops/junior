@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import IdeaRequestButton from "./idearequestbutton";
 import IdeaVoting from "./ideavoting";
+import IdeaComments from "./ideacomments";
 //import { useDispatch, useSelector } from "react-redux";
 import axios from "./../axios";
 import { Link } from "react-router-dom";
 import { socket } from "./../socket";
 
 export default function ideaModal(props) {
-    console.log("ideaModal props: ", props);
+    //console.log("ideaModal props: ", props);
     const [idea, setIdea] = useState();
     const [userFirst, setUserFirst] = useState();
     const [userLast, setUserLast] = useState();
@@ -23,10 +24,10 @@ export default function ideaModal(props) {
         }
         fetchData();
     }, []);
-    console.log("FETCH DATA IDEA DATA: ", idea);
+    //console.log("FETCH DATA IDEA DATA: ", idea);
 
     useEffect(() => {
-        // socket.emit(`Card Id`, props.match.params.id);
+        socket.emit(`Card Id`, props.match.params.id);
         async function fetchUser() {
             const result = await axios.get(
                 `/idea-creator/${props.match.params.id}.json`
@@ -78,12 +79,20 @@ export default function ideaModal(props) {
                             />
                         </div>
                         <div className="card-bottom">
+                            <div className="card-age">
+                                <p className="caption">
+                                    {idea.age.days} {idea.age.months}
+                                </p>
+                            </div>
                             <div className="card-content">
                                 <p>{idea.idea_desc}</p>
                             </div>
                             <div className="card-stack">
-                                <p className="caption">{idea.idea_stack}</p>
+                                <p className="caption">{idea.stack}</p>
                             </div>
+                        </div>
+                        <div className="card-comments">
+                            <IdeaComments id={idea.id} />
                         </div>
                     </div>
                 </div>

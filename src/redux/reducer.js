@@ -22,7 +22,7 @@ export default function (state = {}, action) {
         };
         //console.log("ACCEPT COLAB REDUCER: ", state);
     } else if (action.type === "GETTING ALL VOTES") {
-        console.log("ACTION VOTES UP REDUCER: ", state);
+        //console.log("ACTION VOTES UP REDUCER: ", state);
         // let incrementedArr =
         state.ideas &&
             state.ideas.map((idea) => {
@@ -50,10 +50,10 @@ export default function (state = {}, action) {
             ...state,
         };
     } else if (action.type === "NEW VOTE UP ADDED") {
-        console.log(
+        /* console.log(
             "NEW VOTE UP ADDED ACTION INSIDE REDUCER: ",
             action.votes.votes.vote_up
-        );
+        ); */
         state.ideas &&
             state.ideas.map((idea) => {
                 if (idea.id === action.votes.cardId) {
@@ -74,10 +74,10 @@ export default function (state = {}, action) {
             //newUpVoteValue: newUpVoteValue,
         };
     } else if (action.type === "NEW VOTE DOWN ADDED") {
-        console.log(
+        /* console.log(
             "NEW VOTE DOWN ADDED ACTION INSIDE REDUCER: ",
             action.votes
-        );
+        ); */
         state.ideas &&
             state.ideas.map((idea) => {
                 if (idea.id === action.votes.cardId) {
@@ -96,6 +96,45 @@ export default function (state = {}, action) {
         return {
             ...state,
             //newUpVoteValue: newUpVoteValue,
+        };
+    } else if (action.type === "LATEST COMMENTS") {
+        console.log("LATEST COMMENTS REDUCER: ", action);
+        // action.comments.senders.sender_id
+        const senders = action.comments.slice(-1)[0];
+        const allSenders = senders.senders;
+        //const singleSender = allSenders.senders.filter((sender) => sender.id);
+
+        const filteredComments = action.comments.filter(
+            (comment) => comment.idea_id === state.id
+        );
+        /* const allComments = allSenders.senders.filter(
+            (sender) => sender.sender_id === singleSender.id
+        ); */
+
+        let allCommentData = [];
+        for (let i = 0; i < filteredComments.length; ++i) {
+            for (let j = 0; j < allSenders.length; ++j) {
+                if (filteredComments[i].sender_id === allSenders[j].sender_id) {
+                    let singleComment = Object.assign(
+                        filteredComments[i],
+                        allSenders[j]
+                    );
+                    allCommentData.push(singleComment);
+                }
+            }
+        }
+
+        console.log("filtered Comments: ", allCommentData);
+        console.log("filtered Senders: ", allSenders);
+        state = {
+            ...state,
+            comments: allCommentData,
+        };
+    } else if (action.type === "NEW COMMENT ADDED") {
+        //console.log("NEW COMMENT ADDED REDUCER: ", action);
+        state = {
+            ...state,
+            comments: [...state.comments, action.newComment],
         };
     }
     console.log("REDCUER STATE? ", state);

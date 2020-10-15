@@ -80,7 +80,7 @@ module.exports.addIdea = (idea_title, idea_dev_id, idea_desc, idea_duedate) => {
 module.exports.addIdeaStack = (idea_id, arrayOfStack) => {
     return db.query(
         `
-    IçNSERT INTO ideas_stack (idea_id, stack)
+    INSERT INTO ideas_stack (idea_id, stack)
     VALUES ($1, $2)
     RETURNING *`,
         [idea_id, arrayOfStack]
@@ -93,7 +93,8 @@ module.exports.getIdeas = () => {
     SELECT ideas.id, ideas.idea_title, ideas.idea_dev_id, ideas.idea_desc, AGE(ideas.idea_duedate), ideas.vote_up, ideas.vote_down, ideas_stack.stack
     FROM ideas
     JOIN ideas_stack
-    ON ideas.id = ideas_stack.idea_id`
+    ON ideas.id = ideas_stack.idea_id
+    ORDER BY ideas.id DESC`
     );
 };
 
@@ -215,9 +216,11 @@ module.exports.moveIdeaToProject = (
 
 module.exports.getIdeaInfo = (id) => {
     return db.query(
-        `
-    SELECT * FROM ideas 
-    WHERE id = ($1);`,
+        `SELECT ideas.id, ideas.idea_title, ideas.idea_dev_id, ideas.idea_desc, AGE(ideas.idea_duedate), ideas.vote_up, ideas.vote_down, ideas_stack.stack
+        FROM ideas
+        JOIN ideas_stack
+        ON ideas.id = ideas_stack.idea_id
+        WHERE ideas.id = ($1)`,
         [id]
     );
 };
@@ -250,5 +253,49 @@ module.exports.insertVoteDown = (idea_id, count) => {
         WHERE id = ($1)
         RETURNING *;`,
         [idea_id, count]
+    );
+};
+
+module.exports.getLatestComments = () => {
+    return db.query(
+        `
+    SELECT ideas_comments.id, sender_id, comment, ideas_comments.idea_id, ideas_comments.created_at
+    FROM ideas_comments 
+    JOIN ideas
+    ON (idea_id = ideas.id)
+    ORDER BY created_at DESC`
+    );
+};
+
+module.exports.getCommentSenders = (idea_id) => {
+    return db.query(
+        `
+    SELECT juniors.id, firstname, lastname, idea_id, sender_id 
+    FROM juniors 
+    JOIN ideas_comments
+    ON (sender_id = juniors.id AND idea_id = ($1))
+    ORDER BY created_at DESC`,
+        [idea_id]
+    );
+};
+
+module.exports.addComment = (sender_id, comment) => {
+    return db.query(
+        `
+    INSERT INTO ideas_comments 
+    (sender_id, comment) 
+    VALUES ($1, $2)
+    RETURNING *;`,
+        [sender_id, comment]
+    );
+};
+
+module.exports.renderNewComment = (sender_id) => {
+    return db.query(
+        `
+    SELECT firstname, lastname 
+    FROM juniors 
+    where id = ($1);`,
+        [sender_id]
     );
 };

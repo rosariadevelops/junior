@@ -651,6 +651,22 @@ io.on("connection", (socket) => {
             io.sockets.emit("votes", votes);
             //io.sockets.emit("votesDown", votesDown);
         });
+
+        db.getLatestComments()
+            .then(({ rows }) => {
+                console.log("getLatestComments RESULT:", rows);
+                db.getCommentSenders(cardId).then((result) => {
+                    //console.log("commentSenders result: ", result.rows);
+                    const allCommentSenders = {
+                        senders: result.rows,
+                    };
+                    const reverseComments = rows.reverse();
+                    reverseComments.push(allCommentSenders);
+                    console.log("reverseComments: ", reverseComments);
+                    io.sockets.emit("ideaComments", reverseComments);
+                });
+            })
+            .catch((err) => console.log("err in getLatestComments: ", err));
     });
 
     socket.on(`Up Vote on Card`, (insertUpObj) => {
@@ -688,5 +704,19 @@ io.on("connection", (socket) => {
                 io.sockets.emit("newDownVote", votes);
             })
             .catch((err) => console.log("error in insertVoteDown: ", err));
+    });
+
+    socket.on("Latest comment", (newComment) => {
+        db.addComment(loggedUser, newComment).then(({ rows }) => {
+            console.log("addComment result: ", rows);
+            db.renderNewComment(loggedUser).then((result) => {
+                const newInfo = {
+                    ...rows[0],
+                    ...result.rows[0],
+                };
+                console.log("newInfo: ", newInfo);
+                io.sockets.emit("newComment", newInfo);
+            });
+        });
     });
 });

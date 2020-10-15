@@ -2,7 +2,7 @@ import axios from "./../axios";
 
 export async function recieveIdeas() {
     const { data } = await axios.get("/ideaboard");
-    console.log("RECIEVE IDEAS ACTIONS: ", data.ideas);
+    //console.log("RECIEVE IDEAS ACTIONS: ", data.ideas);
     return {
         type: "RECIEVE IDEAS",
         ideas: data.ideas,
@@ -50,7 +50,7 @@ export async function renderVotesDown(votesDown) {
 }
 
 export async function addNewVoteUp(votes) {
-    console.log("NEW VOTE UP ACTION: ", votes);
+    //console.log("NEW VOTE UP ACTION: ", votes);
     return {
         type: "NEW VOTE UP ADDED",
         votes: votes,
@@ -58,9 +58,25 @@ export async function addNewVoteUp(votes) {
 }
 
 export async function addNewVoteDown(votes) {
-    console.log("NEW VOTE DOWN ACTION: ", votes);
+    //console.log("NEW VOTE DOWN ACTION: ", votes);
     return {
         type: "NEW VOTE DOWN ADDED",
         votes: votes,
+    };
+}
+
+export async function ideaComments(comments) {
+    console.log("LATEST COMMENTS ACTIONS: ", comments);
+    return {
+        type: "LATEST COMMENTS",
+        comments: comments,
+    };
+}
+
+export async function addNewComment(cmnt) {
+    //console.log("NEW COMMENT ACTION: ", cmnt);
+    return {
+        type: "NEW COMMENT ADDED",
+        newComment: cmnt,
     };
 }

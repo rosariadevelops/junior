@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS juniors;
+DROP TABLE IF EXISTS juniors CASCADE;
 
 CREATE TABLE juniors (
     id SERIAL PRIMARY KEY,
@@ -48,6 +48,7 @@ DROP TABLE IF EXISTS ideas_comments CASCADE;
 
 CREATE TABLE ideas_comments (
     id SERIAL PRIMARY KEY,
+    sender_id INT REFERENCES juniors(id) NOT NULL,
     comment VARCHAR NOT NULL,
     idea_id INT NOT NULL REFERENCES ideas(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

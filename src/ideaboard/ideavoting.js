@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { socket } from "./../socket";
 
 export default function ideaVoting(props) {
-    console.log("ideaVoting props: ", props);
+    //console.log("ideaVoting props: ", props);
     const initialUpVotes = useSelector(
         (state) => state.votes && state.votes.votes.vote_up
     );
@@ -27,11 +27,11 @@ export default function ideaVoting(props) {
         setDownVote(newDownVotes);
     }
 
-    console.log("initialUpVotes INSIDE USE EFFECT: ", initialUpVotes);
-    console.log("initialDownVotes INSIDE USE EFFECT: ", initialDownVotes);
+    //console.log("initialUpVotes INSIDE USE EFFECT: ", initialUpVotes);
+    //console.log("initialDownVotes INSIDE USE EFFECT: ", initialDownVotes);
 
     useEffect(() => {
-        socket.emit(`Card Id`, props.id);
+        // socket.emit(`Card Id`, props.id);
         setUpVote(initialUpVotes);
         setDownVote(initialDownVotes);
     }, [initialUpVotes, initialDownVotes]);
