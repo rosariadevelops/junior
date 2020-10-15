@@ -84,8 +84,9 @@ module.exports.getIdea = (ideaId) => {
 module.exports.getNameOfJunior = (id) => {
     return db.query(
         `
-    SELECT firstname, lastname, image_url FROM juniors
-    WHERE id = $1;`,
+    SELECT firstname, lastname FROM juniors
+    JOIN ideas
+    ON (ideas.id = ($1) AND ideas.idea_dev_id = juniors.id)`,
         [id]
     );
 };
@@ -103,17 +104,6 @@ module.exports.getProjects = (id) => {
         [id]
     );
 };
-
-/* module.exports.getIdeaStatus = (loggedInUser, idea_id) => {
-    return db.query(
-        `
-    SELECT * FROM ideaToProject 
-    WHERE (creator_id = $1)
-    OR (requester_id = $1)
-    AND (idea_id = $3);`,
-        [loggedInUser, idea_id]
-    );
-}; */
 
 module.exports.getIdeaStatus = (loggedInUser, idea_id) => {
     return db.query(
@@ -204,7 +194,7 @@ module.exports.insertVoteUp = (idea_id, count) => {
         UPDATE ideas
         SET vote_up = ($2)
         WHERE id = ($1)
-        RETURNING vote_up;`,
+        RETURNING *;`,
         [idea_id, count]
     );
 };
@@ -215,7 +205,7 @@ module.exports.insertVoteDown = (idea_id, count) => {
         UPDATE ideas
         SET vote_down = ($2)
         WHERE id = ($1)
-        RETURNING vote_down;`,
+        RETURNING *;`,
         [idea_id, count]
     );
 };

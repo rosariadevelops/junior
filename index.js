@@ -528,6 +528,21 @@ app.get("/idea/:id.json", (req, res) => {
         .catch((err) => console.log("err in getIdeaInfo: ", err));
 });
 
+// GET // IDEA MODAL
+app.get("/idea-creator/:id.json", (req, res) => {
+    console.log("/idea-creator/:id req.params: ", req.params);
+    db.getNameOfJunior(req.params.id)
+        .then(({ rows }) => {
+            console.log("IDEA GET USER NAME RESULT: ", rows[0]);
+            res.json({
+                firstname: rows[0].firstname,
+                lastname: rows[0].lastname,
+                success: true,
+            });
+        })
+        .catch((err) => console.log("err in getNameOfJunior: ", err));
+});
+
 /* // POST // ACCEPT COLAB BUTTON
 app.post("/idea/:id/accept-colab", async (req, res) => {
     if (req.params.otherUserId) {
@@ -627,7 +642,7 @@ io.on("connection", (socket) => {
         console.log("insertUpObj: ", insertUpObj);
         db.insertVoteUp(insertUpObj.cardId, insertUpObj.count)
             .then(({ rows }) => {
-                //console.log("upvote server result: ", rows[0].vote_up);
+                console.log("upvote server result: ", rows[0]);
                 const votes = {
                     votes: {
                         vote_up: rows[0].vote_up,
@@ -645,7 +660,7 @@ io.on("connection", (socket) => {
         console.log("insertDownObj: ", insertDownObj);
         db.insertVoteUp(insertDownObj.cardId, insertDownObj.count)
             .then(({ rows }) => {
-                //console.log("upvote server result: ", rows[0].vote_up);
+                console.log("upvote server result: ", rows[0]);
                 const votes = {
                     votes: {
                         vote_up: rows[0].vote_up,

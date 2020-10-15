@@ -3,15 +3,15 @@ import { useSelector } from "react-redux";
 import { socket } from "./../socket";
 
 export default function ideaVoting(props) {
-    //console.log("ideaCARD: ", props);
+    console.log("ideaCARD: ", props);
     const initialUpVotes = useSelector(
-        (state) => state.votes && state.votes.vote_up
+        (state) => state.votes && state.votes.votes.vote_up
     );
     const initialDownVotes = useSelector(
         (state) => state.votes && state.votes.votes.vote_down
     );
-    const [upVote, setUpVote] = useState();
-    const [downVote, setDownVote] = useState();
+    const [upVote, setUpVote] = useState(initialUpVotes);
+    const [downVote, setDownVote] = useState(initialDownVotes);
 
     function handleInsertUp() {
         //e.preventDefault();
@@ -27,13 +27,16 @@ export default function ideaVoting(props) {
         setDownVote(newDownVotes);
     }
 
+    console.log("initialUpVotes INSIDE USE EFFECT: ", initialUpVotes);
+    console.log("initialDownVotes INSIDE USE EFFECT: ", initialDownVotes);
+
     useEffect(() => {
         socket.emit(`Card Id`, props.id);
         setUpVote(initialUpVotes);
         setDownVote(initialDownVotes);
     }, [initialUpVotes, initialDownVotes]);
 
-    useEffect(() => {
+    /*   useEffect(() => {
         setUpVote(upVote);
         console.log("upVote INSIDE USE EFFECT: ", upVote);
         let insertUpObj = {
@@ -53,10 +56,10 @@ export default function ideaVoting(props) {
         };
         socket.emit(`Down Vote on Card`, insertDownObj);
         console.log("insertUpObj: ", insertDownObj);
-    }, [downVote]);
+    }, [downVote]); */
 
     // console.log(`PROPS OF CARD ${props.id}`, props);
-    /* if (!allUpVotes || !allDownVotes) {
+    /* if (!initialUpVotes || !initialDownVotes) {
         return (
             <React.Fragment>
                 <div className="card-votes-up" onClick={() => handleInsertUp()}>

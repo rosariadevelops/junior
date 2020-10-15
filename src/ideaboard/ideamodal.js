@@ -8,6 +8,8 @@ import { socket } from "./../socket";
 
 export default function ideaModal(props) {
     const [idea, setIdea] = useState();
+    const [userFirst, setUserFirst] = useState();
+    const [userLast, setUserLast] = useState();
     // console.log("ideaModal props: ", props);
 
     useEffect(() => {
@@ -20,7 +22,18 @@ export default function ideaModal(props) {
         }
         fetchData();
     }, []);
-    console.log("idea: ", idea);
+
+    useEffect(() => {
+        // socket.emit(`Card Id`, props.match.params.id);
+        async function fetchUser() {
+            const result = await axios.get(
+                `/idea-creator/${props.match.params.id}.json`
+            );
+            setUserFirst(result.data.firstname);
+            setUserLast(result.data.lastname);
+        }
+        fetchUser();
+    }, []);
 
     if (!idea) {
         return null;
@@ -50,7 +63,9 @@ export default function ideaModal(props) {
                             ideaId={idea.id}
                         />
                         <div className="card-creator">
-                            <p className="body-2">@rosariadevelops</p>
+                            <p className="body-2">
+                                Posted by {userFirst} {userLast}
+                            </p>
                         </div>
                         <div className="card-votes">
                             <IdeaVoting

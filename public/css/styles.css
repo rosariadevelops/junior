@@ -284,15 +284,42 @@ main {
     align-self: flex-end;
     justify-content: space-between;
     width: 200px;
+    height: 35px;
 }
-.idea-card .card-votes {
-    width: 120px;
-}
-.card-votes .heart {
+/* .card-votes .heart {
     width: 20px;
     height: 20px;
     margin-right: 5px;
     border-radius: 50%;
+} */
+.heart {
+    display: inline-block;
+    height: 20px;
+    margin: 0 5px;
+    position: relative;
+    top: 0;
+    transform: rotate(-45deg);
+    width: 20px;
+}
+
+.heart:before,
+.heart:after {
+    content: "";
+    background-color: red;
+    border-radius: 50%;
+    height: 20px;
+    position: absolute;
+    width: 20px;
+}
+
+.heart:before {
+    top: -10px;
+    left: 0;
+}
+
+.heart:after {
+    left: 10px;
+    top: 0;
 }
 .card-votes-up {
     color: #5dcf04;
@@ -301,6 +328,10 @@ main {
     align-items: center;
     cursor: pointer;
     width: 100px;
+}
+.card-votes-up .heart:before,
+.card-votes-up .heart:after {
+    background-color: #5dcf04;
 }
 .card-votes-up .heart {
     background: #5dcf04;
@@ -315,6 +346,16 @@ main {
 }
 .card-votes-down .heart {
     background: #ef3a3a;
+    transform: rotate(135deg);
+}
+.card-votes-down .heart:before,
+.card-votes-down .heart:after {
+    background-color: #ef3a3a;
+}
+.card-votes p {
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: 800;
 }
 .card-stack {
     display: flex;
@@ -335,12 +376,16 @@ main {
     z-index: 10;
 }
 .modal-ctr {
-    width: 560px;
+    width: 90%;
+    max-width: 900px;
     height: 90vh;
     background: white;
     top: 10vh;
     position: absolute;
+    border-radius: 4px;
     padding: 40px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.2) 0px 3px 8px;
     overflow-x: hidden;
 }
 .modal .overlay {
@@ -384,7 +429,7 @@ main {
     z-index: 9;
     cursor: pointer;
 }
-.close-button a span {
+.close-button span {
     background: #28282a;
     display: block;
     width: 100%;
@@ -394,12 +439,12 @@ main {
     overflow: hidden;
     transition: 500ms ease;
 }
-.close-button a .close-modal-left {
+.close-button .close-modal-left {
     transform: rotate(45deg) translate(10px, 10px);
 }
-.close-button a .close-modal-right {
+.close-button .close-modal-right {
     transform: rotate(-45deg) translate(-10px, 10px);
 }
-.close-button:hover a span {
+.close-button:hover span {
     background: #0004ff;
 }
