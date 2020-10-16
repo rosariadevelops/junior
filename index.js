@@ -12,7 +12,7 @@ const path = require("path"); // core node module
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-//const { sendEmail } = require("./ses");
+const { sendEmail } = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
 const { async } = require("crypto-random-string");
 const server = require("http").Server(app); // constructor for server object
@@ -164,18 +164,13 @@ app.post("/login", (req, res) => {
 
 // GET // PASSWORD RESET PAGE
 app.get("/password/reset", (req, res) => {
-    console.log("password reset page");
-    if (req.session.userId) {
-        res.redirect("/");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-        // console.log("is this rendering?");
-    }
+    res.sendFile(__dirname + "/index.html");
 });
 
 // POST // PASSWORD RESET START PAGE
-/* app.post("/password/reset/start", (req, res) => {
+app.post("/password/reset/start", (req, res) => {
     const { email } = req.body;
+    console.log("password req body: ", req.body);
 
     if (email === "") {
         res.json({
@@ -187,9 +182,9 @@ app.get("/password/reset", (req, res) => {
         db.checkEmail(email)
             .then((result) => {
                 console.log("checkEmail /pw/reset/start result: ", result);
-                console.log("results: ", result.rows);
                 const correctEmail = result.rows[0].email;
                 const name = result.rows[0].firstname;
+
                 if (result.rows.length === 0 || correctEmail === "") {
                     console.log("entered login details are somewhat empty");
                     res.json({
@@ -205,25 +200,21 @@ app.get("/password/reset", (req, res) => {
                         console.log("addPwReset r: ", r);
                         sendEmail(
                             correctEmail,
-                            `${secretCode} is your Antisocial account recovery code`,
+                            `${secretCode} is your Junior account recovery code`,
                             secretCode,
                             name
                         );
                         console.log("Email has been sent to: ", correctEmail);
-                        console.log("Timestamp: ", r.rows[0].created_at);
                         res.json({
                             success: true,
-                            timestamp: r.rows[0].created_at,
                         });
                     });
                     //
                 }
             })
-            .catch((err) =>
-                console.log("err in checkEmail /password/reset/start: ", err)
-            );
+            .catch((err) => console.log("err in checkEmail: ", err));
     }
-}); */
+});
 
 // POST // PASSWORD RESET VERIFY PAGE
 app.post("/password/reset/verify", (req, res) => {
@@ -269,7 +260,7 @@ app.get("/ideaboard", async (req, res) => {
         const { rows } = await db
             .getIdeas()
             .catch((err) => console.log("err in getIdeas: ", err));
-        console.log("allIdeas results: ", rows);
+        //console.log("allIdeas results: ", rows);
 
         res.json({
             success: true,
@@ -288,7 +279,7 @@ app.post("/create-idea", async (req, res) => {
     const addIdeaResult = await db
         .addIdea(idea_title, loggedInUser, idea_desc, idea_duedate)
         .catch((err) => console.log("err in addIdea: ", err));
-    console.log("addIdeaResult: ", addIdeaResult.rows[0]);
+    //console.log("addIdeaResult: ", addIdeaResult.rows[0]);
 
     const addIdeaStackResult = await db.addIdeaStack(
         addIdeaResult.rows[0].id,
@@ -321,11 +312,13 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
         const getStackResult = await db
             .getStackByIdeaId(req.params.ideaId)
             .catch((err) => console.log("err in getStackResult: ", err));
-        console.log("Idea Stack: ", getStackResult.rows);
+        //console.log("Idea Stack: ", getStackResult.rows);
 
         const ideaId = getIdeaResult.rows[0].id;
         const ideaCreator = getIdeaResult.rows[0].idea_dev_id;
 
+        console.log("logged User: ", req.session.userId);
+        console.log("Idea ID: ", ideaId);
         const { rows } = await db
             .getIdeaStatus(req.session.userId, ideaId)
             .catch((err) => console.log("err in getIdeaStatus: ", err));
@@ -340,7 +333,7 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
                 greyButton: true,
             });
         } else if (rows.length > 0 && ideaCreator == req.session.userId) {
-            console.log("Logged in user MADE the ideacard");
+            console.log("logged in user RECEIVED the request");
             // THIS IS LOGGING AS TRUE FOR ID 1 CARD
             res.json({
                 buttonText: "Accept team-up request",
@@ -368,7 +361,7 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
                     creatorId: rows[0].creator_id,
                     ideaId: req.params.ideaId,
                 });
-            } else if (
+            } /* else if (
                 rows[0].creator_id === req.session.userId &&
                 rows[0].requester_id != req.session.userId &&
                 rows[0].accepted === false
@@ -379,7 +372,7 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
                     creatorId: rows[0].creator_id,
                     ideaId: req.params.ideaId,
                 });
-            }
+            } */
         } else {
             console.log("NO request existing");
             res.json({
@@ -544,12 +537,12 @@ app.get("/idea/:id.json", (req, res) => {
         .catch((err) => console.log("err in getIdeaInfo: ", err));
 });
 
-// GET // IDEA MODAL
+// GET // IDEA CREATOR
 app.get("/idea-creator/:id.json", (req, res) => {
-    console.log("/idea-creator/:id req.params: ", req.params);
+    //console.log("/idea-creator/:id req.params: ", req.params);
     db.getNameOfJunior(req.params.id)
         .then(({ rows }) => {
-            console.log("IDEA GET USER NAME RESULT: ", rows[0]);
+            //console.log("IDEA GET USER NAME RESULT: ", rows[0]);
             res.json({
                 firstname: rows[0].firstname,
                 lastname: rows[0].lastname,
@@ -558,25 +551,6 @@ app.get("/idea-creator/:id.json", (req, res) => {
         })
         .catch((err) => console.log("err in getNameOfJunior: ", err));
 });
-
-/* // POST // ACCEPT COLAB BUTTON
-app.post("/idea/:id/accept-colab", async (req, res) => {
-    if (req.params.otherUserId) {
-        const { rows } = await db
-            .acceptIdeaRequest(req.params.otherUserId, req.session.userId)
-            .catch((err) => console.log("err in insertIdeaRequest: ", err));
-        console.log("ACCEPT COLAB RESULT: ", rows[0]);
-        res.json({
-            data: rows[0],
-            status: "Delete friend",
-            success: true,
-        });
-    } else {
-        res.json({
-            success: false,
-        });
-    }
-}); */
 
 // GET // PROJECTS
 app.get("/projects", async (req, res) => {
@@ -593,16 +567,6 @@ app.get("/projects", async (req, res) => {
             success: true,
             projects: rows,
         }); */
-    }
-});
-
-// GET // PROFILE
-app.get("/profile", (req, res) => {
-    console.log("profile page");
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
     }
 });
 
@@ -628,7 +592,7 @@ server.listen(8080, function () {
 
 // SOCKET.IO
 io.on("connection", (socket) => {
-    console.log(`socket.id ${socket.id} is now connected`);
+    // console.log(`socket.id ${socket.id} is now connected`);
     //
     const loggedUser = socket.request.session.userId;
     if (!loggedUser) {
@@ -636,64 +600,48 @@ io.on("connection", (socket) => {
     }
 
     socket.on(`Card Id`, (cardId) => {
+        console.log(`socket.id ${socket.id} is now connected`);
         db.getVotes(cardId).then(({ rows }) => {
-            // console.log("socket card id: ", cardId);
-            // console.log("socket card id rows: ", rows[0]);
-            //const votesUp = rows[0].vote_up;
-            //const votesDown = rows[0].vote_down;
             console.log(`SERVER ROWS of card ${cardId}: `, rows);
             const votes = {
                 votes: rows[0],
                 cardId: parseInt(cardId),
             };
-            //console.log(`SERVER votesUp of card ${cardId}: `, votesUp);
-            //console.log(`SERVER votes of card ${cardId}: `, votes);
-            io.sockets.emit("votes", votes);
-            //io.sockets.emit("votesDown", votesDown);
+            socket.emit("votes", votes);
         });
 
         db.getLatestComments()
             .then(({ rows }) => {
-                //console.log("getLatestComments RESULT:", rows);
                 const reverseComments = rows.reverse();
-                //console.log("reverseComments: ", reverseComments);
                 io.sockets.emit("ideaComments", reverseComments);
             })
             .catch((err) => console.log("err in getLatestComments: ", err));
     });
 
     socket.on(`Up Vote on Card`, (insertUpObj) => {
-        //console.log("working????????");
-        console.log("insertUpObj: ", insertUpObj);
         db.insertVoteUp(insertUpObj.cardId, insertUpObj.count)
             .then(({ rows }) => {
-                console.log("upvote server result: ", rows[0]);
+                console.log("upvote server result: ", rows[0].vote_up);
                 const votes = {
-                    votes: {
-                        vote_up: rows[0].vote_up,
-                        vote_down: rows[0].vote_down,
-                    },
+                    vote_up: rows[0].vote_up,
+                    vote_down: rows[0].vote_down,
                     cardId: insertUpObj.cardId,
                 };
-                //console.log("voteup: ", voteup);
                 io.sockets.emit("newUpVote", votes);
             })
             .catch((err) => console.log("error in insertVoteUp: ", err));
     });
+
     socket.on(`Down Vote on Card`, (insertDownObj) => {
-        //console.log("working????????");
-        console.log("insertDownObj: ", insertDownObj);
-        db.insertVoteUp(insertDownObj.cardId, insertDownObj.count)
+        console.log("Down Vote on Card: ", insertDownObj.count);
+        db.insertVoteDown(insertDownObj.cardId, insertDownObj.count)
             .then(({ rows }) => {
-                console.log("upvote server result: ", rows[0]);
+                console.log("downvote server result: ", rows[0]);
                 const votes = {
-                    votes: {
-                        vote_up: rows[0].vote_up,
-                        vote_down: rows[0].vote_down,
-                    },
+                    vote_up: rows[0].vote_up,
+                    vote_down: rows[0].vote_down,
                     cardId: insertDownObj.cardId,
                 };
-                //console.log("voteup: ", voteup);
                 io.sockets.emit("newDownVote", votes);
             })
             .catch((err) => console.log("error in insertVoteDown: ", err));

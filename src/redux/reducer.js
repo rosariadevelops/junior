@@ -22,7 +22,7 @@ export default function (state = {}, action) {
         };
         //console.log("ACCEPT COLAB REDUCER: ", state);
     } else if (action.type === "GETTING ALL VOTES") {
-        //console.log("ACTION VOTES UP REDUCER: ", state);
+        console.log("ACTION VOTES UP REDUCER: ", state);
         // let incrementedArr =
         state.ideas &&
             state.ideas.map((idea) => {
@@ -50,10 +50,10 @@ export default function (state = {}, action) {
             ...state,
         };
     } else if (action.type === "NEW VOTE UP ADDED") {
-        /* console.log(
+        console.log(
             "NEW VOTE UP ADDED ACTION INSIDE REDUCER: ",
             action.votes.votes.vote_up
-        ); */
+        );
         state.ideas &&
             state.ideas.map((idea) => {
                 if (idea.id === action.votes.cardId) {
@@ -69,20 +69,20 @@ export default function (state = {}, action) {
                     return idea;
                 }
             });
-        return {
+        /* return {
             ...state,
-            //newUpVoteValue: newUpVoteValue,
-        };
+            newUpVoteValue: action.votes.votes.vote_up,
+        }; */
     } else if (action.type === "NEW VOTE DOWN ADDED") {
-        /* console.log(
+        console.log(
             "NEW VOTE DOWN ADDED ACTION INSIDE REDUCER: ",
             action.votes
-        ); */
+        );
         state.ideas &&
             state.ideas.map((idea) => {
                 if (idea.id === action.votes.cardId) {
                     console.log(
-                        "NEW VOTE UP ADDED IDEA INSIDE REDUCER: ",
+                        "NEW VOTE DOWN ADDED IDEA INSIDE REDUCER: ",
                         idea
                     );
                     return {
@@ -98,23 +98,23 @@ export default function (state = {}, action) {
             //newUpVoteValue: newUpVoteValue,
         };
     } else if (action.type === "LATEST COMMENTS") {
-        console.log("LATEST COMMENTS REDUCER: ", action);
+        //console.log("LATEST COMMENTS REDUCER: ", action);
 
         const filteredComments = action.comments.filter(
             (comment) => comment.idea_id === state.id
         );
-        console.log("filtered Comments: ", filteredComments);
+        //console.log("filtered Comments: ", filteredComments);
         state = {
             ...state,
             comments: filteredComments,
         };
     } else if (action.type === "NEW COMMENT ADDED") {
-        console.log("NEW COMMENT ADDED REDUCER: ", action);
+        //console.log("NEW COMMENT ADDED REDUCER: ", action);
         state = {
             ...state,
             comments: [...state.comments, action.newComment],
         };
     }
-    console.log("REDCUER STATE? ", state);
+    //console.log("REDCUER STATE? ", state);
     return state;
 }

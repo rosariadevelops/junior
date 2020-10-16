@@ -153,7 +153,8 @@ module.exports.getIdeaStatus = (loggedInUser, idea_id) => {
     return db.query(
         `
     SELECT * FROM ideaToProject 
-    WHERE (requester_id = $1 AND idea_id = $2)`,
+    WHERE (requester_id = $1 AND idea_id = $2)
+    OR (creator_id = $1 AND idea_id = $2)`,
         [loggedInUser, idea_id]
     );
 };

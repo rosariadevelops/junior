@@ -18,6 +18,12 @@ export default function ideaVoting(props) {
         let newUpVotes = upVote + 1;
         console.log("newUpVotes: ", newUpVotes);
         setUpVote(newUpVotes);
+        let insertUpObj = {
+            cardId: props.id,
+            count: newUpVotes,
+        };
+        socket.emit(`Down Vote on Card`, insertUpObj);
+        console.log("insertUpObj: ", insertUpObj);
     }
 
     function handleInsertDown() {
@@ -25,57 +31,26 @@ export default function ideaVoting(props) {
         let newDownVotes = downVote + 1;
         console.log("newDownVotes: ", newDownVotes);
         setDownVote(newDownVotes);
-    }
-
-    //console.log("initialUpVotes INSIDE USE EFFECT: ", initialUpVotes);
-    //console.log("initialDownVotes INSIDE USE EFFECT: ", initialDownVotes);
-
-    useEffect(() => {
-        // socket.emit(`Card Id`, props.id);
-        setUpVote(initialUpVotes);
-        setDownVote(initialDownVotes);
-    }, [initialUpVotes, initialDownVotes]);
-
-    /*   useEffect(() => {
-        setUpVote(upVote);
-        console.log("upVote INSIDE USE EFFECT: ", upVote);
-        let insertUpObj = {
-            cardId: props.id,
-            count: upVote,
-        };
-        socket.emit(`Up Vote on Card`, insertUpObj);
-        console.log("insertUpObj: ", insertUpObj);
-    }, [upVote]);
-
-    useEffect(() => {
-        setUpVote(downVote);
-        console.log("downVote INSIDE USE EFFECT: ", downVote);
         let insertDownObj = {
             cardId: props.id,
-            count: downVote,
+            count: newDownVotes,
         };
         socket.emit(`Down Vote on Card`, insertDownObj);
-        console.log("insertUpObj: ", insertDownObj);
-    }, [downVote]); */
+        console.log("insertDownObj: ", insertDownObj);
+        //socket.broadcast.emit(`Down Vote on Card`, insertDownObj);
+    }
 
-    // console.log(`PROPS OF CARD ${props.id}`, props);
-    /* if (!initialUpVotes || !initialDownVotes) {
-        return (
-            <React.Fragment>
-                <div className="card-votes-up" onClick={() => handleInsertUp()}>
-                    <div className="heart"></div>
-                    <p className="body-2">{props.voteUp}</p>
-                </div>
-                <div
-                    className="card-votes-down"
-                    onClick={() => handleInsertDown()}
-                >
-                    <div className="heart"></div>
-                    <p className="body-2">{props.voteDown}</p>
-                </div>
-            </React.Fragment>
-        );
-    } else { */
+    //console.log("initialVotes OUTSIDE USE EFFECT: ", initialUpVotes);
+    //console.log("props.id ", props.id);
+
+    useEffect(() => {
+        socket.emit(`Card Id`, props.id);
+        setUpVote(initialUpVotes);
+        setDownVote(initialDownVotes);
+        console.log("UP VOTES INSIDE USE EFFECT: ", upVote);
+        console.log("DOWN VOTES INSIDE USE EFFECT: ", downVote);
+    }, [initialUpVotes, initialDownVotes]);
+
     return (
         <React.Fragment>
             <div className="card-votes-up" onClick={() => handleInsertUp()}>

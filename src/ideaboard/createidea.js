@@ -20,12 +20,6 @@ export default function createIdeaModal() {
         }
     };
 
-    /* function handleInput(e) {
-        const { name, value } = e.target;
-        setState({
-            [name]: value,
-        });
-    } */
     const [value, setValue] = useState({});
     const handleChange = (e) => {
         setValue({
@@ -93,7 +87,7 @@ export default function createIdeaModal() {
                     />
                 </div>
                 <div className="input-ctr">
-                    <label htmlFor="idea_stack">Stack:</label>
+                    <label htmlFor="idea_stack">Intended Stack:</label>
                     <input
                         onChange={(e) => handleChange(e)}
                         type="text"
@@ -106,7 +100,7 @@ export default function createIdeaModal() {
                     <div className="stack-rendered">{stack}</div>
                 </div>
                 <div className="input-ctr">
-                    <label htmlFor="idea_duedate">Estimated duration:</label>
+                    <label htmlFor="idea_duedate">End date:</label>
                     <input
                         className="idea_time"
                         autoComplete="false"

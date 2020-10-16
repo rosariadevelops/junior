@@ -7,9 +7,10 @@ export default function AllProjects() {
     return (
         <React.Fragment>
             <div className="horizontal-ctr">
-                <h4>Active Projects</h4>
+                <div className="title">
+                    <h2>Active Projects</h2>
+                </div>
                 <Project />
-                <h4>Completed Projects</h4>
             </div>
         </React.Fragment>
     );

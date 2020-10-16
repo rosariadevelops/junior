@@ -92,20 +92,47 @@ button {
     letter-spacing: 1.5px;
 }
 
+.form-ctr {
+    display: flex;
+}
 .rgtr-form,
-.rgtr-display,
 .login-form,
-.login-display {
-    width: 50%;
-    display: inline-block;
+.reset-ctr {
+    width: 65%;
+    background: white;
+    display: flex;
     height: 100vh;
     vertical-align: top;
     flex-direction: column;
-    padding: 40px;
+    padding: 40px 13%;
+    justify-content: center;
 }
 .rgtr-display,
 .login-display {
-    background: #f8fbff;
+    width: 35%;
+    display: flex;
+    height: 100vh;
+    vertical-align: top;
+    flex-direction: column;
+}
+.rgtr-display .nav-sidebar,
+.login-display .nav-sidebar {
+    background: transparent;
+}
+.rgtr-display .nav-sidebar .logo,
+.login-display .nav-sidebar .logo {
+    color: #262627;
+}
+.rgtr-ctr,
+.login-ctr {
+    max-width: 360px;
+    margin: 0 auto;
+}
+.rgtr-ctr h5,
+.login-ctr h5,
+.reset-ctr h5 {
+    margin: 0;
+    line-height: 33px;
 }
 .form {
     display: flex;
@@ -116,6 +143,33 @@ button {
     background: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
+}
+.form a {
+    font-size: 14px;
+    color: #262627;
+    margin: -12px 0 20px;
+}
+.rgtr-form .form,
+.login-form .form,
+.reset-ctr .form {
+    background: transparent;
+    box-shadow: none;
+    padding: 40px 0 0;
+    margin-bottom: 30px;
+    min-width: 360px;
+}
+.pw-reset-form {
+    display: flex;
+    flex-direction: column;
+}
+.pw-reset-form .body-2 {
+    margin: 0 0 35px;
+}
+
+.rgtr-form .form input,
+.login-form .form input,
+.reset-ctr .form input {
+    margin: 3px 0 20px;
 }
 input,
 textarea {
@@ -159,19 +213,53 @@ button {
 button:hover {
     background: #5dcf04;
     border-color: #5dcf04;
+}
+
+.send-email {
+    display: flex;
+}
+.send-email .cancel {
+    margin: 10px 20px 0 0;
+    padding: 15px 10px;
+    font-weight: 300;
+    background: white;
     color: #262627;
+    border: 1px solid #262627;
+    text-decoration: none;
+    font-size: 16px;
+}
+.send-email button {
+    margin: 10px 0 0;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 300;
+    width: auto;
 }
 
 .login-link {
-    text-align: center;
+    position: absolute;
+    top: 0;
+    padding: 25px 20px 10px;
+    text-align: left;
+    right: 0;
+}
+.login-link .body-1 {
+    font-size: 14px;
 }
 .login-link a {
-    display: block;
-    color: #5dcf04;
+    background: transparent;
+    border: 1px solid #262627;
+    color: #262627;
+    cursor: pointer;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 2px;
+    padding: 6px 8px;
     transition: 500ms ease;
 }
 .login-link a:hover {
-    color: #27b0fd;
+    background: #262627;
+    color: white;
 }
 
 main {
@@ -222,6 +310,10 @@ main {
     color: white;
     text-decoration: none;
     padding: 10px 0;
+    transition: 500ms ease;
+}
+.nav-menu a:hover {
+    color: #ffcb51;
 }
 
 /* ----------- .MAIN ----------- */
@@ -261,7 +353,7 @@ main {
     align-items: center;
     justify-content: center;
     box-shadow: rgba(17, 17, 26, 0.15) 0px 1px 0px,
-        rgba(17, 17, 26, 0.2) 0px 0px 8px;
+        rgba(17, 17, 26, 0.2) 0px 0px 5px;
     transition: 500ms ease;
 }
 .plus-h {
@@ -277,15 +369,16 @@ main {
     position: absolute;
 }
 .plus:hover {
-    transform: translateY(-5px);
-    box-shadow: rgba(17, 17, 26, 0.15) 0px 10px 15px,
-        rgba(17, 17, 26, 0.05) 0px 0px 18px;
+    background: #5dcf04;
+    /* transform: translateY(-5px); */
+    /* box-shadow: rgba(17, 17, 26, 0.15) 0px 10px 15px,
+        rgba(17, 17, 26, 0.05) 0px 0px 18px; */
 }
-.plus:hover .plus-h,
+/* .plus:hover .plus-h,
 .plus:hover .plus-v {
     background: #5dcf04;
     transition: 500ms ease;
-}
+} */
 
 /* ----------- TAG FILTERING ----------- */
 .ibd-tags-ctr {
@@ -293,12 +386,12 @@ main {
     margin-bottom: 30px;
 }
 .ibd-tags {
-    background: transparent;
+    background: white;
     border: 1px solid #262627;
     color: #262627;
     transition: 500ms ease;
     cursor: pointer;
-    margin: 0 5px;
+    margin: 0 5px 5px;
 }
 .ibd-tags:hover {
     background: #262627;
@@ -428,6 +521,7 @@ main {
 }
 
 .modal {
+    transition: 500ms ease;
     position: fixed;
     top: 0;
     right: 0;
@@ -471,19 +565,150 @@ main {
 .modal .form textarea {
     min-height: 100px;
 }
-.modal .idea-expanded {
-    background: white;
-    position: absolute;
-    width: 650px;
-    right: 0;
-    top: 100px;
-    left: 0;
-    bottom: 0;
-    border-radius: 0;
-    margin: 0 auto;
-    overflow-y: scroll;
-    justify-content: center;
+.idea-expanded .modal-ctr {
+    padding: 40px 0 0;
 }
+.idea-expanded .idea-data {
+    padding: 0 40px;
+}
+.idea-expanded h3 {
+    margin: 30px 0 10px;
+}
+.idea-expanded .card-top {
+    display: flex;
+    border-bottom: 1px solid #f3f3f3;
+    padding-bottom: 10px;
+}
+.idea-expanded .card-creator .body-2 {
+    font-size: 13px;
+}
+.idea-expanded .card-age .caption {
+    font-size: 13px;
+    padding: 10px 0;
+}
+.idea-expanded .card-content {
+    padding: 1px 0;
+}
+.idea-expanded .card-content p {
+    font-size: 24px;
+    line-height: 35px;
+}
+.idea-expanded .card-content span {
+    display: block;
+    padding-bottom: 10px;
+    color: #a7a7a7;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 15px;
+}
+.idea-expanded .card-stack {
+    padding-top: 13px;
+    margin-top: 0;
+    padding-bottom: 20px;
+    margin-bottom: 3px;
+    display: block;
+}
+.idea-expanded .card-stack .stack-heading {
+    font-size: 24px;
+    line-height: 35px;
+}
+.idea-expanded .stack-box {
+    display: flex;
+}
+.idea-expanded .stack-box .stack-p {
+    margin: 10px 20px 10px 0;
+    line-height: 20px;
+    height: 30px;
+    font-size: 20px;
+}
+.idea-expanded .card-stack span {
+    display: block;
+    padding-bottom: 10px;
+    color: #a7a7a7;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 15px;
+}
+
+.colab-button {
+    width: 60%;
+    margin: 0 auto;
+}
+.colab-button button {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 300;
+}
+.idea-expanded .card-votes {
+    margin: 20px 0;
+    width: 170px;
+}
+.idea-expanded .card-votes-up,
+.idea-expanded .card-votes-down {
+    width: 70px;
+    justify-content: flex-start;
+}
+.idea-expanded .heart {
+    height: 20px;
+    margin: 0 5px;
+    width: 20px;
+}
+.idea-expanded .heart:before {
+    top: -10px;
+}
+.idea-expanded .heart:after {
+    left: 10px;
+}
+.idea-expanded .heart:before,
+.idea-expanded .heart:after {
+    height: 20px;
+    width: 20px;
+}
+.idea-expanded .card-votes p {
+    font-size: 24px;
+}
+.idea-expanded .card-comments {
+    background: #f3f3f3;
+    padding: 20px 80px;
+    margin: 40px 0 0;
+}
+.idea-expanded .card-comments-heading {
+    margin: 20px 0;
+}
+.idea-expanded .card-comments-heading span {
+    display: block;
+    padding-bottom: 10px;
+    color: #a7a7a7;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 15px;
+}
+.idea-expanded .card-comments .comment {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f3f3f3;
+}
+.idea-expanded .card-comments .comment:last-child {
+    border-bottom: none;
+}
+
+.idea-expanded .card-comments .comment p {
+    margin: 0;
+    font-weight: 600;
+}
+.idea-expanded .card-comments .comment p.cmt-name {
+    font-weight: 100;
+    font-size: 12px;
+    font-style: italic;
+    letter-spacing: 0.2px;
+    margin: 0 0 10px;
+}
+.idea-expanded .card-comments textarea {
+    width: 100%;
+    margin-bottom: 50px;
+}
+
 .close-button {
     display: block;
     position: absolute;
@@ -536,4 +761,40 @@ main {
     padding: 15px 10px;
     font-size: 18px;
     font-weight: 300;
+    width: 280px;
+}
+
+.coming-soon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.horizontal-ctr {
+    padding: 0 20px;
+}
+
+@media screen and (min-width: 1300px) {
+    .grid-ctr {
+        grid-template-columns: repeat(5, 1fr);
+        padding: 20px 40px;
+    }
+}
+@media screen and (max-width: 950px) {
+    .grid-ctr {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 20px 40px;
+    }
+    .nav-sidebar {
+        position: fixed;
+    }
+    .container {
+        padding-left: 240px;
+        height: auto;
+        min-height: auto;
+    }
+    .main {
+        padding-bottom: 60px;
+    }
 }

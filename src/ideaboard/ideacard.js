@@ -18,11 +18,6 @@ export default function IdeaCard({ idea }) {
         fetchUser();
     }, []);
 
-    //console.log("idea stack: ", idea.stack);
-    //const stackItem = useSelector((idea) => idea.stack);
-    // const stackItem = idea.stack && idea.stack.filter((idea) => idea);
-    console.log("idea stack: ", idea.stack);
-
     return (
         <div className="idea-card">
             <Link to={"/idea/" + idea.id}>

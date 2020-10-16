@@ -21,7 +21,7 @@ export default function IdeaBoard() {
         dispatch(recieveIdeas());
         //setIdeas(initialIdeas);
     }, []);
-    console.log("ideas: ", ideas);
+    //console.log("ideas: ", ideas);
 
     useEffect(() => {
         console.log("renderFilter: ", renderFilter.filterOn);
@@ -43,8 +43,8 @@ export default function IdeaBoard() {
     const filterIdeas =
         ideas &&
         ideas.filter((idea) => idea.stack.includes(filter.filterValue));
-    console.log("filterIdeas: ", filterIdeas);
-    console.log("renderFilter.filterOn: ", renderFilter.filterOn);
+    //console.log("filterIdeas: ", filterIdeas);
+    //console.log("renderFilter.filterOn: ", renderFilter.filterOn);
 
     function createIdea(e) {
         e.preventDefault();

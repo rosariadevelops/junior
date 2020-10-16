@@ -16,7 +16,8 @@ import AllProjects from "./project/allprojects";
 // move into ^^ import ProjectInfo from "./project/projectinfo";
 // move into ^^ import ProjectTimeline from "./project/projecttimeline";
 // move into ^^ import ProjectTaskList from "./project/tasklist";
-//import Community from "./community";
+import Community from "./community/community";
+import Settings from "./profile/settings";
 // move into ^^ import Developers from "./community/developers";
 // move into ^^ import Conversations from "./community/conversations";
 // move into ^^ import PrivateMessage from "./community/privatemessage";
@@ -57,6 +58,14 @@ export default function App() {
                                         lastname={this.state.lastname} */
                                     />
                                 )}
+                            />
+                            <Route
+                                path="/community"
+                                render={() => <Community />}
+                            />
+                            <Route
+                                path="/profile"
+                                render={() => <Settings />}
                             />
                         </div>
                     </div>
