@@ -22,63 +22,84 @@ export default function (state = {}, action) {
         };
         //console.log("ACCEPT COLAB REDUCER: ", state);
     } else if (action.type === "GETTING ALL VOTES") {
-        console.log("ACTION VOTES UP REDUCER: ", state);
-        // let incrementedArr =
-        state.ideas &&
-            state.ideas.map((idea) => {
-                console.log("idea logging: ", action.votes);
-                if (idea.id === action.votes.cardId) {
-                    /* console.log(
-                        `IDEA GETTING ALL VOTES REDUCER ${idea.id}: `,
-                        idea
-                    );
-                    console.log(
-                        `ACTION VOTES REDUCER  ${idea.id}: `,
-                        action.votes
-                    ); */
-                    return (state = {
-                        ...idea,
-                        //cardId: action.votes.cardId,
-                        votes: action.votes,
-                    });
-                } else {
-                    return idea;
-                }
-            });
-        console.log(`State for this card ${action.votes.cardId}`, state);
-        return {
+        state = {
             ...state,
-        };
-    } else if (action.type === "NEW VOTE UP ADDED") {
-        console.log(
-            "NEW VOTE UP ADDED ACTION INSIDE REDUCER: ",
-            action.votes.votes.vote_up
-        );
-        state.ideas &&
-            state.ideas.map((idea) => {
-                if (idea.id === action.votes.cardId) {
-                    console.log(
-                        "NEW VOTE UP ADDED IDEA INSIDE REDUCER: ",
-                        idea
-                    );
+            ideas: state.ideas.map((idea) => {
+                //console.log("idea logging: ", action.votes);
+                const actionVotes = action.votes;
+                console.log("HJFBHJSB: ", actionVotes);
+                if (idea.id === actionVotes.cardId) {
                     return {
                         ...idea,
-                        vote_up: action.votes.votes.vote_up,
+                        vote_up: actionVotes.serverVoteUp,
+                        vote_down: actionVotes.serverVoteDown,
                     };
                 } else {
                     return idea;
                 }
-            });
-        /* return {
+            }),
+        };
+        console.log("ACTION VOTES REDUCER: ", state);
+    } else if (action.type === "NEW VOTE UP ADDED") {
+        console.log("NEW VOTE UP ADDED ACTION INSIDE REDUCER: ", action.votes);
+        state = {
             ...state,
-            newUpVoteValue: action.votes.votes.vote_up,
-        }; */
+            ideas: state.ideas.map((idea) => {
+                //console.log("idea logging: ", action.votes);
+                const actionVotes = action.votes;
+                console.log("HJFBHJSB: ", actionVotes);
+                if (idea.id === actionVotes.cardId) {
+                    return {
+                        ...idea,
+                        vote_up: actionVotes.serverVoteUp,
+                        vote_down: actionVotes.serverVoteDown,
+                    };
+                } else {
+                    return idea;
+                }
+            }),
+        };
+
+        /* state.ideas &&
+            state.ideas.map((idea) => {
+                console.log("NEW VOTE UP ADDED IDEA INSIDE REDUCER: ", idea);
+                if (idea.id === action.votes.cardId) {
+                    /* console.log(
+                        "NEW VOTE UP ADDED IDEA INSIDE REDUCER: ",
+                        idea
+                    ); 
+                    return {
+                        ...idea,
+                        vote_up: action.votes.vote_up,
+                    };
+                } else {
+                    return idea;
+                }
+            }); */
     } else if (action.type === "NEW VOTE DOWN ADDED") {
         console.log(
             "NEW VOTE DOWN ADDED ACTION INSIDE REDUCER: ",
             action.votes
         );
-        state.ideas &&
+        state = {
+            ...state,
+            ideas: state.ideas.map((idea) => {
+                //console.log("idea logging: ", action.votes);
+                const actionVotes = action.votes;
+                console.log("HJFBHJSB: ", actionVotes);
+                if (idea.id === actionVotes.cardId) {
+                    return {
+                        ...idea,
+                        vote_up: actionVotes.serverVoteUp,
+                        vote_down: actionVotes.serverVoteDown,
+                    };
+                } else {
+                    return idea;
+                }
+            }),
+        };
+
+        /* state.ideas &&
             state.ideas.map((idea) => {
                 if (idea.id === action.votes.cardId) {
                     console.log(
@@ -92,11 +113,7 @@ export default function (state = {}, action) {
                 } else {
                     return idea;
                 }
-            });
-        return {
-            ...state,
-            //newUpVoteValue: newUpVoteValue,
-        };
+            }); */
     } else if (action.type === "LATEST COMMENTS") {
         //console.log("LATEST COMMENTS REDUCER: ", action);
 

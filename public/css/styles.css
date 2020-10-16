@@ -94,6 +94,8 @@ button {
 
 .form-ctr {
     display: flex;
+    background: url("/images/login-1.png"), white;
+    background-size: cover;
 }
 .rgtr-form,
 .login-form,
@@ -621,6 +623,15 @@ main {
     height: 30px;
     font-size: 20px;
 }
+.stack-rendered {
+    margin: -20px 0 20px;
+}
+.stack-rendered .stack-box .stack-p {
+    margin: 0 10px 0 0;
+    padding: 10px;
+    background: #f3f3f3;
+    display: inline-block;
+}
 .idea-expanded .card-stack span {
     display: block;
     padding-bottom: 10px;
@@ -639,6 +650,21 @@ main {
     padding: 15px;
     font-size: 20px;
     font-weight: 300;
+}
+.colab-button .black {
+    background: #262627;
+    border: none;
+}
+.colab-button .black:hover,
+.colab-button .grey:hover,
+.colab-button .green:hover {
+    border: none;
+}
+.colab-button .grey {
+    background: #f3f3f3;
+    color: #262627;
+    cursor: normal;
+    border: none;
 }
 .idea-expanded .card-votes {
     margin: 20px 0;
@@ -667,6 +693,7 @@ main {
 }
 .idea-expanded .card-votes p {
     font-size: 24px;
+    margin: 5px 0 5px 15px;
 }
 .idea-expanded .card-comments {
     background: #f3f3f3;

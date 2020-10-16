@@ -29,19 +29,19 @@ export default function IdeaCard({ idea }) {
                         </p>
                     </div>
                     <div className="card-votes">
-                        {/* <IdeaVoting
+                        <IdeaVoting
                             id={idea.id}
                             voteUp={idea.vote_up}
                             voteDown={idea.vote_down}
-                        /> */}
-                        <div className="card-votes-up">
+                        />
+                        {/* <div className="card-votes-up">
                             <div className="heart"></div>
                             <p className="body-2">{idea.vote_up}</p>
                         </div>
                         <div className="card-votes-down">
                             <div className="heart"></div>
                             <p className="body-2">{idea.vote_down}</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="card-bottom">

@@ -1,17 +1,31 @@
 import React, { useEffect, useState /* , useEffect  */ } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { socket } from "./../socket";
+//import { renderVotes } from "./../redux/actions";
 
 export default function ideaVoting(props) {
-    //console.log("ideaVoting props: ", props);
-    const initialUpVotes = useSelector(
-        (state) => state.votes && state.votes.votes.vote_up
-    );
-    const initialDownVotes = useSelector(
-        (state) => state.votes && state.votes.votes.vote_down
-    );
+    //const dispatch = useDispatch();
+    console.log("ideaVoting props: ", props.id);
+
+    const initialUpVotes = useSelector((state) => {
+        const resultIdea = state.ideas.filter((idea) => idea.id === props.id);
+        const resultVoteUp = resultIdea[0].vote_up;
+        console.log("resultIdea: ", resultVoteUp);
+        // state.ideas && state.ideas.vote_up;
+        return resultVoteUp;
+    });
+    const initialDownVotes = useSelector((state) => {
+        const resultIdea = state.ideas.filter((idea) => idea.id === props.id);
+        const resultVoteDown = resultIdea[0].vote_down;
+        console.log("resultIdea: ", resultVoteDown);
+        // state.ideas && state.ideas.vote_up;
+        return resultVoteDown;
+    });
+
     const [upVote, setUpVote] = useState(initialUpVotes);
     const [downVote, setDownVote] = useState(initialDownVotes);
+    console.log("initialUpVotes: ", initialUpVotes);
+    console.log("initialDownVotes: ", initialDownVotes);
 
     function handleInsertUp() {
         //e.preventDefault();
@@ -22,7 +36,7 @@ export default function ideaVoting(props) {
             cardId: props.id,
             count: newUpVotes,
         };
-        socket.emit(`Down Vote on Card`, insertUpObj);
+        socket.emit(`Up Vote on Card`, insertUpObj);
         console.log("insertUpObj: ", insertUpObj);
     }
 

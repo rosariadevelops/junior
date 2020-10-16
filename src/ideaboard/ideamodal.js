@@ -2,25 +2,31 @@ import React, { useEffect, useState } from "react";
 import IdeaRequestButton from "./idearequestbutton";
 import IdeaVoting from "./ideavoting";
 import IdeaComments from "./ideacomments";
-//import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { recieveIdeas } from "./../redux/actions";
+
 import axios from "./../axios";
 import { Link } from "react-router-dom";
 import { socket } from "./../socket";
 
 export default function ideaModal(props) {
     //console.log("ideaModal props: ", props);
+    //const dispatch = useDispatch();
     const [idea, setIdea] = useState();
     const [userFirst, setUserFirst] = useState();
     const [userLast, setUserLast] = useState();
     // console.log("ideaModal props: ", props);
 
     useEffect(() => {
+        //dispatch(recieveIdeas());
         // socket.emit(`Card Id`, props.match.params.id);
         async function fetchData() {
             const result = await axios.get(
                 `/idea/${props.match.params.id}.json`
             );
+
             setIdea(result.data.data);
+            console.log("idea USE EFFECT: ", result.data.data);
         }
         fetchData();
     }, []);
@@ -63,11 +69,13 @@ export default function ideaModal(props) {
                         <div className="idea-cols">
                             <div className="idea-data">
                                 <div className="card-votes">
-                                    <IdeaVoting
-                                        voteUp={idea.vote_up}
-                                        voteDown={idea.vote_down}
-                                        id={idea.id}
-                                    />
+                                    {idea && (
+                                        <IdeaVoting
+                                            voteUp={idea.vote_up}
+                                            voteDown={idea.vote_down}
+                                            id={idea.id}
+                                        />
+                                    )}
                                 </div>
                                 <h3>{idea.idea_title}</h3>
                                 <div className="idea-modal card-top">

@@ -97,7 +97,15 @@ export default function createIdeaModal() {
                         onKeyDown={keyCheck}
                     />
 
-                    <div className="stack-rendered">{stack}</div>
+                    <div className="stack-rendered">
+                        <div className="stack-box">
+                            {stack.map((item) => (
+                                <p key={item} className="stack-p">
+                                    {item}
+                                </p>
+                            ))}
+                        </div>
+                    </div>
                 </div>
                 <div className="input-ctr">
                     <label htmlFor="idea_duedate">End date:</label>

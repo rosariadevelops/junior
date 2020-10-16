@@ -324,7 +324,7 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
             .catch((err) => console.log("err in getIdeaStatus: ", err));
         console.log("getIdeaStatus results: ", rows);
 
-        if (rows[0].accepted == true) {
+        if (rows.length > 0 && rows[0].accepted == true) {
             console.log("These guys are making some projects!");
             res.json({
                 buttonText: "Go to Project",
@@ -595,11 +595,15 @@ io.on("connection", (socket) => {
     socket.on(`Card Id`, (cardId) => {
         console.log(`socket.id ${socket.id} is now connected`);
         db.getVotes(cardId).then(({ rows }) => {
-            console.log(`SERVER ROWS of card ${cardId}: `, rows);
+            // console.log(`SERVER ROWS of card ${cardId}: `, rows);
+            const serverVoteUp = rows[0].vote_up;
+            const serverVoteDown = rows[0].vote_down;
             const votes = {
-                votes: rows[0],
+                serverVoteUp,
+                serverVoteDown,
                 cardId: parseInt(cardId),
             };
+            console.log(`SERVER ROWS of card ${cardId}: `, votes);
             socket.emit("votes", votes);
         });
 
