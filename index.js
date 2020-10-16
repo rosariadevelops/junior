@@ -324,7 +324,15 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
             .catch((err) => console.log("err in getIdeaStatus: ", err));
         console.log("getIdeaStatus results: ", rows);
 
-        if (rows.length <= 0 && ideaCreator == req.session.userId) {
+        if (rows[0].accepted == true) {
+            console.log("These guys are making some projects!");
+            res.json({
+                buttonText: "Go to Project",
+                blueButton: true,
+                creatorId: rows[0].creator_id,
+                ideaId: req.params.ideaId,
+            });
+        } else if (rows.length <= 0 && ideaCreator == req.session.userId) {
             console.log("Logged in user MADE the ideacard");
             // THIS IS LOGGING AS TRUE FOR ID 1 CARD
             res.json({
@@ -353,26 +361,7 @@ app.get(`/idea-status/:ideaId/:otherUserId`, async (req, res) => {
                     ideaId: req.params.ideaId,
                     greyButton: true,
                 });
-            } else if (rows[0].accepted === true) {
-                console.log("These guys are making some projects!");
-                res.json({
-                    buttonText: "Go to Project",
-                    blueButton: true,
-                    creatorId: rows[0].creator_id,
-                    ideaId: req.params.ideaId,
-                });
-            } /* else if (
-                rows[0].creator_id === req.session.userId &&
-                rows[0].requester_id != req.session.userId &&
-                rows[0].accepted === false
-            ) {
-                console.log("logged in user RECEIVED the request");
-                res.json({
-                    buttonText: "Accept team-up request",
-                    creatorId: rows[0].creator_id,
-                    ideaId: req.params.ideaId,
-                });
-            } */
+            }
         } else {
             console.log("NO request existing");
             res.json({
@@ -394,7 +383,9 @@ app.post(
     "/idea-status/:ideaId/:otherUserId/request-colab",
     async (req, res) => {
         console.log("REQUEST REQ PARAMS: ", req.params);
-        if (req.params.otherUserId) {
+        let otherUserId = parseInt(req.params.otherUserId);
+        console.log("ACCEPT REQ otherUserId: ", otherUserId);
+        if (otherUserId != req.session.userId) {
             const { rows } = await db
                 .insertIdeaRequest(
                     req.params.otherUserId,
@@ -427,7 +418,9 @@ app.post(
 // POST // ACCEPT COLAB BUTTON
 app.post("/idea-status/:ideaId/:otherUserId/accept-colab", async (req, res) => {
     console.log("ACCEPT REQ PARAMS: ", req.params);
-    if (req.params.otherUserId) {
+    let otherUserId = parseInt(req.params.otherUserId);
+    console.log("ACCEPT REQ otherUserId: ", otherUserId);
+    if (otherUserId === req.session.userId) {
         const { rows } = await db
             .acceptIdeaRequest(req.session.userId, req.params.ideaId)
             .catch((err) => console.log("err in acceptIdeaRequest: ", err));

@@ -180,14 +180,14 @@ module.exports.cancelIdeaRequest = (requester_id, idea_id) => {
     );
 };
 
-module.exports.acceptIdeaRequest = (requester_id, idea_id) => {
+module.exports.acceptIdeaRequest = (creator_id, idea_id) => {
     return db.query(
         `
         UPDATE ideaToProject 
         SET accepted = true
-        WHERE (requester_id = $1 and idea_id = $2)
+        WHERE (creator_id = $1 and idea_id = $2)
         RETURNING *;`,
-        [requester_id, idea_id]
+        [creator_id, idea_id]
     );
 };
 
