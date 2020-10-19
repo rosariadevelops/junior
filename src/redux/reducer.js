@@ -41,7 +41,7 @@ export default function (state = {}, action) {
         };
         console.log("ACTION VOTES REDUCER: ", state);
     } else if (action.type === "NEW VOTE UP ADDED") {
-        console.log("NEW VOTE UP ADDED ACTION INSIDE REDUCER: ", action.votes);
+        //console.log("NEW VOTE UP ADDED ACTION INSIDE REDUCER: ", action.votes);
         state = {
             ...state,
             ideas: state.ideas.map((idea) => {
@@ -77,10 +77,10 @@ export default function (state = {}, action) {
                 }
             }); */
     } else if (action.type === "NEW VOTE DOWN ADDED") {
-        console.log(
+        /* console.log(
             "NEW VOTE DOWN ADDED ACTION INSIDE REDUCER: ",
             action.votes
-        );
+        ); */
         state = {
             ...state,
             ideas: state.ideas.map((idea) => {
@@ -115,18 +115,22 @@ export default function (state = {}, action) {
                 }
             }); */
     } else if (action.type === "LATEST COMMENTS") {
-        //console.log("LATEST COMMENTS REDUCER: ", action);
+        console.log("LATEST COMMENTS REDUCER: ", action);
 
-        const filteredComments = action.comments.filter(
-            (comment) => comment.idea_id === state.id
+        //const featuredCard = state.ideas.filter((idea) => idea.id);
+        //console.log("featuredCard: ", featuredCard);
+
+        const filteredComments = action.comments.reverseComments.filter(
+            (comment) => comment.idea_id === action.comments.cardId
         );
-        //console.log("filtered Comments: ", filteredComments);
+        console.log("filtered Comments: ", state);
         state = {
             ...state,
             comments: filteredComments,
         };
+        console.log("LATEST COMMENTS REDUCER: ", state);
     } else if (action.type === "NEW COMMENT ADDED") {
-        //console.log("NEW COMMENT ADDED REDUCER: ", action);
+        console.log("NEW COMMENT ADDED REDUCER: ", action);
         state = {
             ...state,
             comments: [...state.comments, action.newComment],

@@ -26,7 +26,7 @@ export async function acceptIdeaReq(ideaId, otherUserId) {
 }
 
 export async function renderVotes(votes) {
-    console.log("GETTING ALL VOTES ACTIONS: ", votes);
+    //console.log("GETTING ALL VOTES ACTIONS: ", votes);
     return {
         type: "GETTING ALL VOTES",
         votes,
@@ -42,7 +42,7 @@ export async function renderVotes(votes) {
 } */
 
 export async function renderVotesDown(votesDown) {
-    console.log("GETTING ALL VOTES DOWN ACTIONS: ", votesDown);
+    //console.log("GETTING ALL VOTES DOWN ACTIONS: ", votesDown);
     return {
         type: "GETTING ALL VOTES DOWN",
         votesDown: votesDown,
@@ -50,7 +50,7 @@ export async function renderVotesDown(votesDown) {
 }
 
 export async function addNewVoteUp(votes) {
-    console.log("NEW VOTE UP ACTION: ", votes);
+    //console.log("NEW VOTE UP ACTION: ", votes);
     return {
         type: "NEW VOTE UP ADDED",
         votes: votes,
@@ -58,7 +58,7 @@ export async function addNewVoteUp(votes) {
 }
 
 export async function addNewVoteDown(votes) {
-    console.log("NEW VOTE DOWN ACTION: ", votes);
+    //console.log("NEW VOTE DOWN ACTION: ", votes);
     return {
         type: "NEW VOTE DOWN ADDED",
         votes: votes,
@@ -66,7 +66,7 @@ export async function addNewVoteDown(votes) {
 }
 
 export async function ideaComments(comments) {
-    //console.log("LATEST COMMENTS ACTIONS: ", comments);
+    console.log("LATEST COMMENTS ACTIONS: ", comments);
     return {
         type: "LATEST COMMENTS",
         comments: comments,
@@ -74,7 +74,7 @@ export async function ideaComments(comments) {
 }
 
 export async function addNewComment(cmnt) {
-    //console.log("NEW COMMENT ACTION: ", cmnt);
+    console.log("NEW COMMENT ACTION: ", cmnt);
     return {
         type: "NEW COMMENT ADDED",
         newComment: cmnt,

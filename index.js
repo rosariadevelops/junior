@@ -610,7 +610,13 @@ io.on("connection", (socket) => {
         db.getLatestComments()
             .then(({ rows }) => {
                 const reverseComments = rows.reverse();
-                io.sockets.emit("ideaComments", reverseComments);
+
+                console.log("reverseComments: ", reverseComments);
+                const comments = {
+                    reverseComments,
+                    cardId: parseInt(cardId),
+                };
+                io.sockets.emit("ideaComments", comments);
             })
             .catch((err) => console.log("err in getLatestComments: ", err));
     });

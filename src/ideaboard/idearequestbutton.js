@@ -3,7 +3,7 @@ import axios from "./../axios";
 
 export default function friendRequest({ otherUserId, ideaId }) {
     const [requestStatus, setRequestStatus] = useState("");
-    const [colorStatus, setColorStatus] = useState("grey");
+    const [colorStatus, setColorStatus] = useState();
     //console.log("outside useEffect: ", otherUserId);
     //console.log("requestStatus: ", requestStatus);
 
@@ -27,7 +27,7 @@ export default function friendRequest({ otherUserId, ideaId }) {
 
     function sendStatus() {
         if (requestStatus === "Ask to team up") {
-            setColorStatus("black");
+            //setColorStatus("black");
             axios
                 .post(`/idea-status/${ideaId}/${otherUserId}/request-colab`)
                 .then(({ data }) => {
@@ -40,11 +40,11 @@ export default function friendRequest({ otherUserId, ideaId }) {
                     );
                 });
         } else if (requestStatus === "You're still waiting for a partner") {
-            setColorStatus("grey");
+            //setColorStatus("grey");
             document.querySelector("button").classList.add("inactive");
             setRequestStatus(requestStatus);
         } else if (requestStatus === "Cancel team-up request") {
-            setColorStatus("black");
+            //setColorStatus("black");
             axios
                 .post(`/idea-status/${ideaId}/${otherUserId}/cancel-colab`)
                 .then(({ data }) => {
@@ -57,7 +57,7 @@ export default function friendRequest({ otherUserId, ideaId }) {
                     );
                 });
         } else if (requestStatus === "Accept team-up request") {
-            setColorStatus("black");
+            //setColorStatus("black");
             axios
                 .post(`/idea-status/${ideaId}/${otherUserId}/accept-colab`)
                 .then(({ data }) => {
@@ -70,7 +70,7 @@ export default function friendRequest({ otherUserId, ideaId }) {
                     );
                 });
         } else if (requestStatus === "Go to Project") {
-            setColorStatus("green");
+            //setColorStatus("green");
             axios
                 .post(`/idea-status/${ideaId}/${otherUserId}/pairing-accepted`)
                 .then(({ data }) => {

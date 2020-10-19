@@ -19,7 +19,7 @@ export const init = (store) => {
 
     socket.on("votes", (votes) => {
         store.dispatch(renderVotes(votes));
-        console.log("ALL VOTES SOCKET: ", votes);
+        //console.log("ALL VOTES SOCKET: ", votes);
     });
 
     /* socket.on("votesDown", (votesDown) => {
@@ -29,7 +29,7 @@ export const init = (store) => {
 
     socket.on("newUpVote", (votes) => {
         //const newVoteUp = count.voteup;
-        console.log("Adding a new up vote ", votes);
+        // console.log("Adding a new up vote ", votes);
         store.dispatch(addNewVoteUp(votes));
     });
 
@@ -41,11 +41,11 @@ export const init = (store) => {
 
     socket.on("ideaComments", (comments) => {
         store.dispatch(ideaComments(comments));
-        //console.log("LATEST COMMENTS SOCKET: ", comments);
+        console.log("LATEST COMMENTS SOCKET: ", comments);
     });
 
     socket.on("newComment", (cmnt) => {
-        //console.log(" Got a comment in the client. My comment is: ", cmnt);
+        console.log(" Got a comment in the client. My comment is: ", cmnt);
         store.dispatch(addNewComment(cmnt));
     });
 };

@@ -283,13 +283,19 @@ main {
     height: 100vh;
     background: #262627;
     color: white;
+    position: fixed;
+}
+.nav-sidebar {
+    position: fixed;
 }
 .container {
     display: flex;
     flex: 1;
     flex-direction: column;
     position: relative;
-    min-height: 100vh;
+    padding-left: 240px;
+    height: auto;
+    min-height: auto;
 }
 
 .logo {
@@ -331,7 +337,7 @@ main {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
     grid-column-gap: 20px;
-    grid-row-gap: 20px;
+    grid-row-gap: 40px;
     padding: 20px;
     max-width: 1100px;
     margin: 0 auto;
@@ -797,6 +803,26 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.coming-soon-overlay {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translate(0%, -50%);
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.72);
+    z-index: 9999;
+}
+.coming-soon-overlay .coming-soon {
+    position: relative;
+    top: initial;
+    left: initial;
+    transform: none;
+}
 
 .horizontal-ctr {
     padding: 0 20px;
@@ -804,7 +830,7 @@ main {
 
 @media screen and (min-width: 1300px) {
     .grid-ctr {
-        grid-template-columns: repeat(5, 1fr);
+        /* grid-template-columns: repeat(4, 1fr); */
         padding: 20px 40px;
     }
 }
