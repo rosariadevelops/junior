@@ -2,24 +2,16 @@ import React, { useEffect, useState } from "react";
 import IdeaRequestButton from "./idearequestbutton";
 import IdeaVoting from "./ideavoting";
 import IdeaComments from "./ideacomments";
-import { useDispatch } from "react-redux";
-import { recieveIdeas } from "./../redux/actions";
 
 import axios from "./../axios";
 import { Link } from "react-router-dom";
-import { socket } from "./../socket";
 
 export default function ideaModal(props) {
-    //console.log("ideaModal props: ", props);
-    //const dispatch = useDispatch();
     const [idea, setIdea] = useState();
     const [userFirst, setUserFirst] = useState();
     const [userLast, setUserLast] = useState();
-    // console.log("ideaModal props: ", props);
 
     useEffect(() => {
-        //dispatch(recieveIdeas());
-        // socket.emit(`Card Id`, props.match.params.id);
         async function fetchData() {
             const result = await axios.get(
                 `/idea/${props.match.params.id}.json`
@@ -30,10 +22,8 @@ export default function ideaModal(props) {
         }
         fetchData();
     }, []);
-    //console.log("FETCH DATA IDEA DATA: ", idea);
 
     useEffect(() => {
-        //socket.emit(`Card Id`, props.match.params.id);
         async function fetchUser() {
             const result = await axios.get(
                 `/idea-creator/${props.match.params.id}.json`
@@ -47,9 +37,6 @@ export default function ideaModal(props) {
     if (!idea) {
         return null;
     }
-    //console.log("ideaInfo: ", idea.id);
-    // const idea = data;
-    //const results = axios.get(`/idea/${idea.id}`);
 
     return (
         <React.Fragment>
@@ -63,8 +50,6 @@ export default function ideaModal(props) {
                                 <span className="close-modal-right"></span>
                             </div>
                         </Link>
-
-                        {/* {error && <p className="error">{error}</p>} */}
 
                         <div className="idea-cols">
                             <div className="idea-data">

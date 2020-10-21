@@ -58,25 +58,6 @@ module.exports.addIdea = (idea_title, idea_dev_id, idea_desc, idea_duedate) => {
     );
 };
 
-/* module.exports.getIdeas = () => {
-    return db.query(
-        `
-    SELECT * FROM ideas`
-    );
-}; */
-
-/* module.exports.addIdeaStack = (idea_id, stack) => {
-    return db.query(
-        `
-    INSERT INTO ideas (
-            idea_id,
-            stack)
-        VALUES ($1, $2)
-        RETURNING *`,
-        [idea_id, stack]
-    );
-}; */
-
 module.exports.addIdeaStack = (idea_id, arrayOfStack) => {
     return db.query(
         `

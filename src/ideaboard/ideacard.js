@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useSelector } from "react";
+import React, { useState, useEffect } from "react";
 import IdeaVoting from "./ideavoting";
 import { Link } from "react-router-dom";
 import axios from "./../axios";
-import { socket } from "./../socket";
 
 export default function IdeaCard({ idea }) {
     const [userFirst, setUserFirst] = useState();
     const [userLast, setUserLast] = useState();
 
     useEffect(() => {
-        // socket.emit(`Card Id`, props.match.params.id);
         async function fetchUser() {
             const result = await axios.get(`/idea-creator/${idea.id}.json`);
             setUserFirst(result.data.firstname);
@@ -34,14 +32,6 @@ export default function IdeaCard({ idea }) {
                             voteUp={idea.vote_up}
                             voteDown={idea.vote_down}
                         />
-                        {/* <div className="card-votes-up">
-                            <div className="heart"></div>
-                            <p className="body-2">{idea.vote_up}</p>
-                        </div>
-                        <div className="card-votes-down">
-                            <div className="heart"></div>
-                            <p className="body-2">{idea.vote_down}</p>
-                        </div> */}
                     </div>
                 </div>
                 <div className="card-bottom">

@@ -3,10 +3,8 @@ import { useSelector } from "react-redux";
 import { socket } from "./../socket";
 
 export default function ideaComments({ ideaId }) {
-    //console.log("ideaId comments: ", ideaId);
     const comments = useSelector((state) => state && state.comments);
     const elemRef = useRef();
-    //console.log("comments in component: ", comments);
 
     useEffect(() => {
         if (elemRef.current) {
@@ -35,13 +33,10 @@ export default function ideaComments({ ideaId }) {
                         comments.map(function (comment) {
                             return (
                                 <div className="comment" key={comment.id}>
-                                    {/* <div className="msg-img-ctr"></div> */}
-                                    {/* <div className="msg-content"> */}
                                     <p className="cmt-name">
                                         {comment.firstname} {comment.lastname}
                                     </p>
                                     <p className="cmt">{comment.comment}</p>
-                                    {/* </div> */}
                                 </div>
                             );
                         })}

@@ -4,8 +4,6 @@ import axios from "./../axios";
 export default function friendRequest({ otherUserId, ideaId }) {
     const [requestStatus, setRequestStatus] = useState("");
     const [colorStatus, setColorStatus] = useState();
-    //console.log("outside useEffect: ", otherUserId);
-    //console.log("requestStatus: ", requestStatus);
 
     useEffect(() => {
         let abort;
@@ -15,7 +13,6 @@ export default function friendRequest({ otherUserId, ideaId }) {
             const { data } = await axios.get(
                 `/idea-status/${ideaId}/${otherUserId}`
             );
-            //console.log("DATA DATA DATA: ", data);
             if (!abort) {
                 setRequestStatus(data.buttonText);
             }

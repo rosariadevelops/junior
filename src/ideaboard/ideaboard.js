@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import IdeaCard from "./ideacard";
-//import CreateIdea from "./createidea";
-//import Modal from "./modal";
-//import IdeaModal from "./ideamodal";
 import useModal from "./../useModal";
-//import CreateIdea from "./createidea";
 import ModalComponent from "./../modal";
 import { useDispatch, useSelector } from "react-redux";
 import { recieveIdeas } from "./../redux/actions";
@@ -19,9 +15,7 @@ export default function IdeaBoard() {
 
     useEffect(() => {
         dispatch(recieveIdeas());
-        //setIdeas(initialIdeas);
     }, []);
-    //console.log("ideas: ", ideas);
 
     useEffect(() => {
         console.log("renderFilter: ", renderFilter.filterOn);
@@ -43,8 +37,6 @@ export default function IdeaBoard() {
     const filterIdeas =
         ideas &&
         ideas.filter((idea) => idea.stack.includes(filter.filterValue));
-    //console.log("filterIdeas: ", filterIdeas);
-    //console.log("renderFilter.filterOn: ", renderFilter.filterOn);
 
     function createIdea(e) {
         e.preventDefault();
