@@ -1,8 +1,16 @@
 const spicedPg = require("spiced-pg");
-const db = spicedPg(
+/* const db = spicedPg(
     process.env.DATABASE_URL ||
         "postgres:postgres:postgres@localhost:5432/junior-tool"
-);
+); */
+
+let db;
+if (process.env.DATABASE_URL) {
+    db = spicedPg(process.env.DATABASE_URL);
+} else {
+    const { dbUser, dbPass } = require("./secrets.json");
+    db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/junior-tool`);
+}
 
 module.exports.addJunior = (first, last, email, pword) => {
     return db.query(

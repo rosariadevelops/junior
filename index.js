@@ -14,7 +14,7 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const { sendEmail } = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
-const { async } = require("crypto-random-string");
+//const { async } = require("crypto-random-string");
 const server = require("http").Server(app); // constructor for server object
 const io = require("socket.io")(server, { origins: "localhost:8080" }); // socket needs a native node server in order to work
 
