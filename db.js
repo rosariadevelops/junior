@@ -1,7 +1,7 @@
 const spicedPg = require("spiced-pg");
 const db = spicedPg(
     process.env.DATABASE_URL ||
-        "postgres:postgres:postgres@localhost:5432/junior"
+        "postgres:postgres:postgres@localhost:5432/junior-tool"
 );
 
 module.exports.addJunior = (first, last, email, pword) => {

@@ -533,9 +533,10 @@ app.get("*", function (req, res) {
     }
 });
 
-server.listen(8080, function () {
+/* server.listen(8080, function () {
     console.log("I'm listening.");
-});
+}); */
+server.listen(process.env.PORT || 8080, () => console.log("Server Listening"));
 
 // SOCKET.IO
 io.on("connection", (socket) => {
