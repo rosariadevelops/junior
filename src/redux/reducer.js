@@ -9,15 +9,6 @@ export default function (state = {}, action) {
             status: state.data.map((user) => {
                 console.log("action.id", action);
                 console.log("user.id: ", user);
-                /* if (action.id === user.id) {
-                    console.log("made it to the IF", user);
-                    return {
-                        ...user,
-                        accepted: true,
-                    };
-                } else {
-                    return user;
-                } */
             }),
         };
     } else if (action.type === "GETTING ALL VOTES") {

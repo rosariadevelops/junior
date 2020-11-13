@@ -1,9 +1,7 @@
 import React from "react";
 import Project from "./project";
-//import useModal from "./../useModal";
 
 export default function AllProjects() {
-    //const { isVisible, toggle } = useModal();
     return (
         <React.Fragment>
             <div className="coming-soon-overlay">

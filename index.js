@@ -183,8 +183,7 @@ app.post("/password/reset/start", (req, res) => {
                     const secretCode = cryptoRandomString({
                         length: 6,
                     });
-                    db.addPwReset(correctEmail, secretCode).then((r) => {
-                        //console.log("addPwReset r: ", r);
+                    db.addPwReset(correctEmail, secretCode).then(() => {
                         sendEmail(
                             correctEmail,
                             `${secretCode} is your Junior account recovery code`,
